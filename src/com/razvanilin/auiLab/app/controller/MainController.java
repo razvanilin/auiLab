@@ -1,10 +1,13 @@
 package com.razvanilin.auiLab.app.controller;
 
+import com.razvanilin.auiLab.app.model.MainModel;
 import com.razvanilin.auiLab.app.view.MainMenu;
 import com.razvanilin.auiLab.app.view.MainView;
 import com.razvanilin.auiLab.category.controller.CategoryMenuController;
 import com.razvanilin.auiLab.category.view.CategoryMenuView;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -13,6 +16,7 @@ import java.awt.event.ComponentEvent;
  */
 public class MainController {
     private MainView view;
+    private MainModel model;
     private MainMenu mainMenu;
     private MainMenuController mainMenuController;
     private StatusController statusController;
@@ -21,11 +25,24 @@ public class MainController {
     private CategoryMenuController categoryMenuController;
 
     public MainController() {
+        setModel(new MainModel());
         renderViews();
         initControllers();
         setup();
 
         view.getFrame().setVisible(true);
+    }
+
+    public void importPhoto(String path) {
+        contentController.setPhoto(path);
+    }
+
+    public void addActionListener(ActionListener listener) {
+        model.addActionListener(listener);
+    }
+
+    private void setModel(MainModel model) {
+        this.model = model;
     }
 
     private void renderViews() {
@@ -48,7 +65,7 @@ public class MainController {
     Once the models will be implemented, I will most likely use the Observer pattern or something similar
      */
     private void initControllers() {
-        mainMenuController = new MainMenuController(mainMenu, statusController);
+        mainMenuController = new MainMenuController(mainMenu, this, statusController);
         categoryMenuController = new CategoryMenuController(categoryMenuView, statusController);
 
         view.getFrame().addComponentListener(new ComponentAdapter() {

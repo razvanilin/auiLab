@@ -12,13 +12,10 @@ public class Photo {
     private BufferedImage photo;
 
     public Photo(String path) {
-        try {
-            System.out.println(new File(".").getCanonicalPath() + "\\" + path);
-            photo = ImageIO.read(new File(new File(".").getCanonicalPath() + "\\" + path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        setPhoto(path);
     }
+
+    public Photo() { }
 
     public void addLine(PhotoLine photoLine) {
         photoLines.add(photoLine);
@@ -30,6 +27,14 @@ public class Photo {
 
     public void setFlipped(boolean flipStatus) {
         flipped = flipStatus;
+    }
+
+    public void setPhoto(String path) {
+        try {
+            photo = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public BufferedImage getPhoto() {

@@ -1,5 +1,7 @@
 package com.razvanilin.auiLab.app.view;
 
+import com.razvanilin.auiLab.app.controller.MainMenuController;
+
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;

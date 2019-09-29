@@ -24,6 +24,10 @@ public class PhotoController extends JComponent {
         return this.model;
     }
 
+    public void setPhoto(String path) {
+       this.model.setPhoto(path);
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         view.paint(g, this);

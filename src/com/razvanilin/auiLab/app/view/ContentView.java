@@ -4,7 +4,6 @@ import com.razvanilin.auiLab.app.controller.ContentController;
 import com.razvanilin.auiLab.photo.controller.PhotoController;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class ContentView extends JPanel {
@@ -13,7 +12,7 @@ public class ContentView extends JPanel {
 
    public ContentView(ContentController ctrl) {
        this.ctrl = ctrl;
-       this.photo = ctrl.getPhoto();
+       this.photo = ctrl.getPhotoController();
        setup();
    }
 
@@ -23,10 +22,15 @@ public class ContentView extends JPanel {
        this.add(photo, BorderLayout.CENTER);
    }
 
-   @Override
-   public void paintComponent(Graphics g) {
+   public void refreshPhoto() {
+       this.remove(photo);
+       this.repaint();
+       this.validate();
+       this.add(photo, BorderLayout.CENTER);
    }
 
-   public void paint(Graphics g, ContentController ctrl) {
+   @Override
+   public void paintComponent(Graphics g) {
+       super.paintComponent(g);
    }
 }
