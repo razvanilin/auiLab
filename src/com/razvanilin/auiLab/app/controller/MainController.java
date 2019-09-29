@@ -1,22 +1,22 @@
 package com.razvanilin.auiLab.app.controller;
 
-import com.razvanilin.auiLab.app.view.ContentView;
 import com.razvanilin.auiLab.app.view.MainMenu;
 import com.razvanilin.auiLab.app.view.MainView;
-import com.razvanilin.auiLab.app.view.StatusView;
 import com.razvanilin.auiLab.category.controller.CategoryMenuController;
 import com.razvanilin.auiLab.category.view.CategoryMenuView;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+/*
+    Wires most of the application together at the moment
+ */
 public class MainController {
-    private MainView mainView;
+    private MainView view;
     private MainMenu mainMenu;
     private MainMenuController mainMenuController;
     private StatusController statusController;
-    private ContentView contentView;
-    private StatusView statusView;
+    private ContentController contentController;
     private CategoryMenuView categoryMenuView;
     private CategoryMenuController categoryMenuController;
 
@@ -24,20 +24,23 @@ public class MainController {
         renderViews();
         initControllers();
         setup();
+
+        view.getFrame().setVisible(true);
     }
 
     private void renderViews() {
-        mainView = new MainView();
+        view = new MainView();
         mainMenu = new MainMenu();
-        statusView = new StatusView();
-        contentView = new ContentView();
+        contentController = new ContentController();
         categoryMenuView = new CategoryMenuView();
 
-        mainView.setMenu(mainMenu);
-        mainView.setMainContent(contentView);
-        mainView.setStatusBar(statusView);
-        mainView.setSideMenu(categoryMenuView);
-        mainView.getFrame().setVisible(true);
+        view.setMenu(mainMenu);
+        view.setMainContent(contentController.getView());
+
+        statusController = new StatusController();
+        view.setStatusBar(statusController.getView());
+
+        view.setSideMenu(categoryMenuView);
     }
 
     /*
@@ -45,19 +48,20 @@ public class MainController {
     Once the models will be implemented, I will most likely use the Observer pattern or something similar
      */
     private void initControllers() {
-        statusController = new StatusController(statusView);
-
         mainMenuController = new MainMenuController(mainMenu, statusController);
         categoryMenuController = new CategoryMenuController(categoryMenuView, statusController);
-    }
 
-    private void setup() {
-        mainView.getFrame().addComponentListener(new ComponentAdapter() {
+        view.getFrame().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                statusController.setStatus("Window resized");
+                if (statusController != null) {
+                    statusController.setStatus("Window resized");
+                }
             }
         });
+    }
+
+    private void setup() {
     }
 }

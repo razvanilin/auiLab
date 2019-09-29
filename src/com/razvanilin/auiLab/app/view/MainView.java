@@ -30,7 +30,7 @@ public class MainView {
         frame.add(sideMenu, BorderLayout.WEST);
     }
 
-    public void setMainContent(JPanel mainContent) {
+    public void setMainContent(JComponent mainContent) {
         frame.add(mainContent, BorderLayout.CENTER);
     }
 

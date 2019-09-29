@@ -10,13 +10,14 @@ public class CategoryMenuView extends JPanel {
     private ArrayList<JToggleButton> categoryToggles;
 
     public CategoryMenuView() {
-        setup();
     }
 
-    private void setup() {
+    public void setup(CategoryModel categoryModel) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        categoryModel = new CategoryModel();
+        this.categoryModel = categoryModel;
+    }
 
+    public void render() {
         categoryToggles = new ArrayList<JToggleButton>();
         for(String category: categoryModel.getCategories()) {
             JToggleButton catBtn = new JToggleButton(category);
