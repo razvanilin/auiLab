@@ -8,18 +8,13 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class ContentController extends JComponent {
+public class ContentController {
     private ContentView view;
     private PhotoController photoController;
 
     public ContentController() {
         initializeControllers();
         setView(new ContentView(this));
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        photoController.paint(g);
     }
 
     private void setView(ContentView view) {
