@@ -12,7 +12,7 @@ public class PhotoController extends JComponent {
     private Photo model;
 
     public PhotoController(String path) {
-        setView(new PhotoView());
+        setView(new PhotoView(this));
         setModel(new Photo(path));
     }
 
@@ -30,7 +30,17 @@ public class PhotoController extends JComponent {
 
     @Override
     public void paintComponent(Graphics g) {
-        view.paint(g, this);
+        view.paint(g);
+    }
+
+    public void doubleClicked() {
+        model.setFlipped(!model.isFlipped());
+        repaint();
+        validate();
+    }
+
+    public void clicked() {
+
     }
 
     /* Private methods */

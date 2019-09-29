@@ -33,6 +33,5 @@ public class ContentView extends JPanel {
    public void paintComponent(Graphics g) {
        super.paintComponent(g);
        photo.setSize(this.getWidth(), this.getHeight());
-       photo.paint(g);
    }
 }
