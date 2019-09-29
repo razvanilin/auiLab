@@ -33,11 +33,6 @@ public class PhotoController extends JComponent {
         view.paint(g, this);
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(200, 200);
-    }
-
     /* Private methods */
     private void setView(PhotoView view) {
         this.view = view;
