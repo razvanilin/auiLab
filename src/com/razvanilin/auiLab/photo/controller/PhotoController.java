@@ -8,11 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class PhotoController extends JComponent {
@@ -22,11 +18,9 @@ public class PhotoController extends JComponent {
     private boolean typingActive = false;
 
     private ArrayList<Pair<Integer, Integer>> currentLineCords = new ArrayList<>();
-    private HashMap<Integer, ArrayList<Pair<Integer, Integer>>> allLines = new HashMap<>();
 
     private ArrayList<String> currentText = new ArrayList<>();
     private Point currentTextPos;
-    private HashMap<Point, ArrayList<String>> allText = new HashMap<>();
 
     public PhotoController(String path) {
         setView(new PhotoView(this));
@@ -39,14 +33,6 @@ public class PhotoController extends JComponent {
 
     public void setPhoto(String path) {
        this.model.setPhoto(path);
-    }
-
-    public HashMap<Integer, ArrayList<Pair<Integer, Integer>>> getLines() {
-        return allLines;
-    }
-
-    public HashMap<Point, ArrayList<String>> getAllText() {
-        return allText;
     }
 
     @Override
@@ -91,7 +77,7 @@ public class PhotoController extends JComponent {
        if (drawingActive) {
            drawingActive = false;
            if (currentLineCords.size() < 2) {
-               allLines.remove(allLines.keySet().size());
+               model.removeLine(model.getLines().keySet().size());
            }
            currentLineCords = new ArrayList<>();
            repaint();
@@ -101,7 +87,7 @@ public class PhotoController extends JComponent {
     public void keyTyped(KeyEvent e) {
         if (typingActive) {
             currentText.add(String.valueOf(e.getKeyChar()));
-            allText.put(currentTextPos, currentText);
+            model.addText(currentTextPos, currentText);
             repaint();
         }
     }
@@ -125,9 +111,9 @@ public class PhotoController extends JComponent {
             Pair newPoint = new Pair(mouseX, mouseY);
             currentLineCords.add(newPoint);
             if (isInitialPoint) {
-                allLines.put(allLines.keySet().size(), currentLineCords);
+                model.addLine(model.getLines().keySet().size(), currentLineCords);
             } else {
-                allLines.put(allLines.keySet().size() - 1, currentLineCords);
+                model.addLine(model.getLines().keySet().size() - 1, currentLineCords);
             }
             repaint();
         }

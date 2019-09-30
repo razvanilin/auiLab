@@ -1,7 +1,5 @@
 package com.razvanilin.auiLab.photo.model;
 
-import java.awt.*;
-import java.awt.font.GraphicAttribute;
 import java.util.ArrayList;
 import java.util.Arrays;
 

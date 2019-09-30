@@ -3,9 +3,6 @@ package com.razvanilin.auiLab.app.controller;
 import com.razvanilin.auiLab.app.model.Status;
 import com.razvanilin.auiLab.app.view.StatusView;
 
-import javax.swing.*;
-import java.awt.*;
-
 public class StatusController {
     private StatusView view;
     private Status model;

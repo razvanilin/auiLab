@@ -1,13 +1,10 @@
 package com.razvanilin.auiLab.category.controller;
 
 import com.razvanilin.auiLab.app.controller.StatusController;
-import com.razvanilin.auiLab.app.view.StatusView;
 import com.razvanilin.auiLab.category.model.CategoryModel;
 import com.razvanilin.auiLab.category.view.CategoryMenuView;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 public class CategoryMenuController {
     private CategoryModel categoryModel;

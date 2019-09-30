@@ -3,7 +3,6 @@ package com.razvanilin.auiLab.app.view;
 import com.razvanilin.auiLab.app.controller.StatusController;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class StatusView extends JPanel {
     private JLabel statusLabel;

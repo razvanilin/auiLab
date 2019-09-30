@@ -57,10 +57,10 @@ public class PhotoView {
             }
 
             // DRAW THE LINES
-            if (model.isFlipped() && ctrl.getLines().size() > 0) {
+            if (model.isFlipped() && model.getLines().size() > 0) {
                 g2d.setPaint(Color.BLACK);
 
-                for (ArrayList<Pair<Integer, Integer>> cords : ctrl.getLines().values()) {
+                for (ArrayList<Pair<Integer, Integer>> cords : model.getLines().values()) {
                     if (cords.size() > 2) {
                         GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD, cords.size());
                         path.moveTo(cords.get(0).getKey(), cords.get(0).getValue());
@@ -79,8 +79,8 @@ public class PhotoView {
                 g2d.setColor(Color.BLACK);
                 g2d.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, ctrl.getModel().getFontSize()));
 
-                for (Point point : ctrl.getAllText().keySet()) {
-                    ArrayList<String> text = ctrl.getAllText().get(point);
+                for (Point point : model.getAllText().keySet()) {
+                    ArrayList<String> text = model.getAllText().get(point);
                     StringBuilder stringToDraw = new StringBuilder();
                     int typingHeight = point.y;
                     boolean endReached = false;

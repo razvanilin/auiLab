@@ -3,8 +3,6 @@ package com.razvanilin.auiLab.app.controller;
 import com.razvanilin.auiLab.app.view.ContentView;
 import com.razvanilin.auiLab.photo.controller.PhotoController;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
