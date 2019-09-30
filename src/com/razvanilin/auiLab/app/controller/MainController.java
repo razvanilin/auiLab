@@ -27,7 +27,10 @@ public class MainController {
         initControllers();
         setup();
 
+        view.getFrame().pack();
+        view.getFrame().setSize(1280, 720);
         view.getFrame().setVisible(true);
+
     }
 
     public void importPhoto(String path) {

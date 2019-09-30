@@ -19,7 +19,7 @@ public class PhotoView {
 
     public PhotoView(PhotoController ctrl) {
         this.ctrl = ctrl;
-        setPadding(20);
+        setPadding(0);
         setupListeners();
     }
 
@@ -50,10 +50,10 @@ public class PhotoView {
             }
 
             g.setColor(Color.WHITE);
-            g.fillRect(padding, padding, (int)photoWidth, (int)photoHeight);
+            g.fillRect(padding, padding, (int)photo.getWidth(), (int)photo.getHeight());
 
             if (!model.isFlipped()) {
-                g.drawImage(photo, padding, padding, (int) photoWidth, (int) photoHeight, null);
+                g.drawImage(photo, padding, padding, (int) photo.getWidth(), (int) photo.getHeight(), null);
             }
 
             // DRAW THE LINES

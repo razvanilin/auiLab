@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class PhotoController extends JComponent {
@@ -25,6 +26,7 @@ public class PhotoController extends JComponent {
     public PhotoController(String path) {
         setView(new PhotoView(this));
         setModel(new Photo(path));
+        this.setPreferredSize(new Dimension(model.getPhoto().getWidth(), model.getPhoto().getHeight()));
     }
 
     public Photo getModel() {
@@ -33,10 +35,12 @@ public class PhotoController extends JComponent {
 
     public void setPhoto(String path) {
        this.model.setPhoto(path);
+       this.setPreferredSize(new Dimension(model.getPhoto().getWidth(), model.getPhoto().getHeight()));
     }
 
     @Override
     public void paintComponent(Graphics g) {
+        this.setSize(model.getPhoto().getWidth(), model.getPhoto().getHeight());
         view.paint(g);
     }
 

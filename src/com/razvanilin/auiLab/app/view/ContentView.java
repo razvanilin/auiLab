@@ -9,6 +9,7 @@ import java.awt.*;
 public class ContentView extends JPanel {
     private ContentController ctrl;
     private PhotoController photo;
+    private JScrollPane scrollPane;
 
    public ContentView(ContentController ctrl) {
        this.ctrl = ctrl;
@@ -17,21 +18,28 @@ public class ContentView extends JPanel {
    }
 
    private void setup() {
+       JLabel placeholder = new JLabel("Choose File > Import to load an image");
+       placeholder.setBackground(Color.white);
        this.setLayout(new BorderLayout());
-       this.add(new JLabel("Photo Main Content"), BorderLayout.NORTH);
-       this.add(photo, BorderLayout.CENTER);
+       scrollPane = new JScrollPane();
+       if (photo.getModel().getPhoto() != null) {
+           scrollPane.getViewport().add(photo);
+       } else {
+           scrollPane.getViewport().add(placeholder);
+       }
+       scrollPane.getViewport().setBackground(Color.lightGray);
+       this.add(scrollPane, BorderLayout.CENTER);
    }
 
    public void refreshPhoto() {
-       this.remove(photo);
+       this.removeAll();
+       setup();
        this.repaint();
        this.validate();
-       this.add(photo, BorderLayout.CENTER);
    }
 
    @Override
    public void paintComponent(Graphics g) {
        super.paintComponent(g);
-       photo.setSize(this.getWidth(), this.getHeight());
    }
 }
