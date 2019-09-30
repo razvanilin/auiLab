@@ -28,11 +28,11 @@ public class PhotoController extends JComponent {
     public PhotoController() {
         setView(new PhotoView(this));
         setModel(new Photo());
-//        try {
-//            setPhoto(new File(".").getCanonicalPath() + "\\assets\\picture1.jpg");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            setPhoto(new File(".").getCanonicalPath() + "\\assets\\picture1.jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Photo getModel() {

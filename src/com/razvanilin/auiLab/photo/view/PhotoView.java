@@ -86,11 +86,11 @@ public class PhotoView {
                     boolean endReached = false;
                     for (String s : text) {
                         stringToDraw.append(s);
-
+                        // next, make sure the string doesn't get out of the picture by checking both x and y
                         if (typingHeight >= photo.getHeight() + padding) {
                             endReached = true;
                             break;
-                        } else if (g2d.getFontMetrics().stringWidth(stringToDraw.toString()) + point.x >= ctrl.getX() + photo.getWidth()) {
+                        } else if (g2d.getFontMetrics().stringWidth(stringToDraw.toString()) + point.x >= photo.getWidth()) {
                             g2d.drawString(stringToDraw.toString(), point.x, typingHeight);
                             typingHeight += model.getFontSize();
                             stringToDraw = new StringBuilder();
