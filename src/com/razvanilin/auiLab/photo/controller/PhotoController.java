@@ -95,10 +95,22 @@ public class PhotoController extends JComponent {
     }
 
     public void keyTyped(KeyEvent e) {
-        if (typingActive) {
+        if (typingActive && model.isFlipped()) {
             currentText.add(String.valueOf(e.getKeyChar()));
             model.addText(currentTextPos, currentText);
             repaint();
+        }
+    }
+
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentText.size() > 0) {
+            currentText.remove(currentText.size() - 1);
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentText.size() > 0) {
+            currentText.remove(currentText.size() - 1);
         }
     }
 

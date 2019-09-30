@@ -90,7 +90,7 @@ public class PhotoView {
                         if (typingHeight >= photo.getHeight() + padding) {
                             endReached = true;
                             break;
-                        } else if (g2d.getFontMetrics().stringWidth(stringToDraw.toString()) + point.x >= photo.getWidth()) {
+                        } else if (g2d.getFontMetrics().stringWidth(stringToDraw.toString()) + point.x >= photo.getWidth() - model.getFontSize()) {
                             g2d.drawString(stringToDraw.toString(), point.x, typingHeight);
                             typingHeight += model.getFontSize();
                             stringToDraw = new StringBuilder();
@@ -152,11 +152,12 @@ public class PhotoView {
 
             @Override
             public void keyPressed(KeyEvent e) {
+                ctrl.keyPressed(e);
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-
+                ctrl.keyReleased(e);
             }
         });
     }
