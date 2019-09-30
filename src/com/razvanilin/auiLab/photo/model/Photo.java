@@ -8,18 +8,14 @@ import java.util.ArrayList;
 
 public class Photo {
     private boolean flipped;
-    private ArrayList<PhotoLine> photoLines;
     private BufferedImage photo;
+    private int fontSize = 20;
 
     public Photo(String path) {
         setPhoto(path);
     }
 
     public Photo() { }
-
-    public void addLine(PhotoLine photoLine) {
-        photoLines.add(photoLine);
-    }
 
     public boolean isFlipped() {
         return flipped;
@@ -39,5 +35,13 @@ public class Photo {
 
     public BufferedImage getPhoto() {
         return photo;
+    }
+
+    public int getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
     }
 }

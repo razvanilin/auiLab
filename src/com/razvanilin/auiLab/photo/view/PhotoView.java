@@ -4,16 +4,14 @@ import com.razvanilin.auiLab.photo.controller.PhotoController;
 import com.razvanilin.auiLab.photo.model.Photo;
 import javafx.util.Pair;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class PhotoView {
     private PhotoController ctrl;
@@ -36,6 +34,8 @@ public class PhotoView {
     public void paint(Graphics g) {
         Photo model = ctrl.getModel();
         BufferedImage photo = model.getPhoto();
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         if (photo != null) {
             // calculate the size of the photo taking into consideration the aspect ratio
@@ -56,11 +56,9 @@ public class PhotoView {
                 g.drawImage(photo, padding, padding, (int) photoWidth, (int) photoHeight, null);
             }
 
+            // DRAW THE LINES
             if (model.isFlipped() && ctrl.getLines().size() > 0) {
-                Graphics2D g2d = (Graphics2D) g;
                 g2d.setPaint(Color.BLACK);
-                g2d.setColor(Color.BLACK);
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
                 for (ArrayList<Pair<Integer, Integer>> cords : ctrl.getLines().values()) {
                     if (cords.size() > 2) {
@@ -72,6 +70,34 @@ public class PhotoView {
                         }
 
                         g2d.draw(path);
+                    }
+                }
+            }
+
+            // DRAW THE TEXT
+            if (model.isFlipped()) {
+                g2d.setColor(Color.BLACK);
+                g2d.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, ctrl.getModel().getFontSize()));
+
+                for (Point point : ctrl.getAllText().keySet()) {
+                    ArrayList<String> text = ctrl.getAllText().get(point);
+                    StringBuilder stringToDraw = new StringBuilder();
+                    int typingHeight = point.y;
+                    boolean endReached = false;
+                    for (String s : text) {
+                        stringToDraw.append(s);
+
+                        if (typingHeight >= photo.getHeight() + padding) {
+                            endReached = true;
+                            break;
+                        } else if (g2d.getFontMetrics().stringWidth(stringToDraw.toString()) + point.x >= ctrl.getX() + photo.getWidth()) {
+                            g2d.drawString(stringToDraw.toString(), point.x, typingHeight);
+                            typingHeight += model.getFontSize();
+                            stringToDraw = new StringBuilder();
+                        }
+                    }
+                    if (stringToDraw.length() > 0 && !endReached) {
+                        g2d.drawString(stringToDraw.toString(), point.x, typingHeight);
                     }
                 }
             }
@@ -117,5 +143,21 @@ public class PhotoView {
 
         ctrl.addMouseListener(mouseAdapter);
         ctrl.addMouseMotionListener(mouseAdapter);
+
+        ctrl.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                ctrl.keyTyped(e);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
     }
 }

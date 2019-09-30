@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-public class MainMenuController extends JComponent {
+public class MainMenuController {
     private MainMenu menuView;
     private StatusController statusController;
     private MainController mainController;

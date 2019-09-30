@@ -4,6 +4,7 @@ import com.razvanilin.auiLab.app.model.MainModel;
 import com.razvanilin.auiLab.app.view.MainMenu;
 import com.razvanilin.auiLab.app.view.MainView;
 import com.razvanilin.auiLab.category.controller.CategoryMenuController;
+import com.razvanilin.auiLab.category.model.CategoryModel;
 import com.razvanilin.auiLab.category.view.CategoryMenuView;
 
 import java.awt.event.ActionEvent;
@@ -18,11 +19,9 @@ public class MainController {
     private MainView view;
     private MainModel model;
     private MainMenu mainMenu;
-    private MainMenuController mainMenuController;
     private StatusController statusController;
     private ContentController contentController;
     private CategoryMenuView categoryMenuView;
-    private CategoryMenuController categoryMenuController;
 
     public MainController() {
         setModel(new MainModel());
@@ -65,8 +64,8 @@ public class MainController {
     Once the models will be implemented, I will most likely use the Observer pattern or something similar
      */
     private void initControllers() {
-        mainMenuController = new MainMenuController(mainMenu, this, statusController);
-        categoryMenuController = new CategoryMenuController(categoryMenuView, statusController);
+        MainMenuController mainMenuController = new MainMenuController(mainMenu, this, statusController);
+        CategoryMenuController categoryMenuController = new CategoryMenuController(categoryMenuView, statusController);
 
         view.getFrame().addComponentListener(new ComponentAdapter() {
             @Override

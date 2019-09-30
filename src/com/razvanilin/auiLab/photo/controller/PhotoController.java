@@ -6,8 +6,10 @@ import javafx.util.Pair;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +19,14 @@ public class PhotoController extends JComponent {
     private PhotoView view;
     private Photo model;
     private boolean drawingActive = false;
+    private boolean typingActive = false;
 
     private ArrayList<Pair<Integer, Integer>> currentLineCords = new ArrayList<>();
     private HashMap<Integer, ArrayList<Pair<Integer, Integer>>> allLines = new HashMap<>();
+
+    private ArrayList<String> currentText = new ArrayList<>();
+    private Point currentTextPos;
+    private HashMap<Point, ArrayList<String>> allText = new HashMap<>();
 
     public PhotoController(String path) {
         setView(new PhotoView(this));
@@ -38,6 +45,10 @@ public class PhotoController extends JComponent {
         return allLines;
     }
 
+    public HashMap<Point, ArrayList<String>> getAllText() {
+        return allText;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         view.paint(g);
@@ -50,17 +61,28 @@ public class PhotoController extends JComponent {
     }
 
     public void clicked() {
-
+        this.requestFocus();
     }
 
     public void mousePressed(MouseEvent e) {
         if (model.isFlipped()) {
+            if (!typingActive) {
+                typingActive = true;
+                currentTextPos = new Point(e.getPoint().x, e.getPoint().y);
+            } else {
+                typingActive = false;
+                currentTextPos = null;
+                currentText = new ArrayList<>();
+            }
+
+            drawingActive = true;
             constructPath(true, e.getPoint().x, e.getPoint().y);
         }
     }
 
     public void mouseDragged(MouseEvent e) {
         if (model.isFlipped() && drawingActive) {
+            typingActive = false;
             constructPath(false, e.getPoint().x, e.getPoint().y);
         }
     }
@@ -74,6 +96,14 @@ public class PhotoController extends JComponent {
            currentLineCords = new ArrayList<>();
            repaint();
        }
+    }
+
+    public void keyTyped(KeyEvent e) {
+        if (typingActive) {
+            currentText.add(String.valueOf(e.getKeyChar()));
+            allText.put(currentTextPos, currentText);
+            repaint();
+        }
     }
 
     /* Private methods */
@@ -95,7 +125,6 @@ public class PhotoController extends JComponent {
             Pair newPoint = new Pair(mouseX, mouseY);
             currentLineCords.add(newPoint);
             if (isInitialPoint) {
-                drawingActive = true;
                 allLines.put(allLines.keySet().size(), currentLineCords);
             } else {
                 allLines.put(allLines.keySet().size() - 1, currentLineCords);
