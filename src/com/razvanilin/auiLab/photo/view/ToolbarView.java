@@ -4,8 +4,6 @@ import com.razvanilin.auiLab.photo.controller.ToolbarController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 public class ToolbarView {

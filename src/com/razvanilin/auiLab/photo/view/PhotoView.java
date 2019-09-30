@@ -3,7 +3,6 @@ package com.razvanilin.auiLab.photo.view;
 import com.razvanilin.auiLab.photo.controller.PhotoController;
 import com.razvanilin.auiLab.photo.controller.ToolbarController;
 import com.razvanilin.auiLab.photo.model.Photo;
-import com.razvanilin.auiLab.photo.model.Toolbar;
 import javafx.util.Pair;
 
 import java.awt.*;

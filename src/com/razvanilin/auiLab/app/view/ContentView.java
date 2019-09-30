@@ -2,10 +2,8 @@ package com.razvanilin.auiLab.app.view;
 
 import com.razvanilin.auiLab.app.controller.ContentController;
 import com.razvanilin.auiLab.photo.controller.PhotoController;
-import com.razvanilin.auiLab.photo.controller.ToolbarController;
 
 import javax.swing.*;
-import javax.tools.Tool;
 import java.awt.*;
 
 public class ContentView extends JPanel {
