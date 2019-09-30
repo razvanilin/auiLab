@@ -3,6 +3,7 @@ package com.razvanilin.auiLab.category.view;
 import com.razvanilin.auiLab.category.model.CategoryModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class CategoryMenuView extends JPanel {
@@ -15,6 +16,7 @@ public class CategoryMenuView extends JPanel {
     public void setup(CategoryModel categoryModel) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.categoryModel = categoryModel;
+        this.setPreferredSize(new Dimension(80, 500));
     }
 
     public void render() {

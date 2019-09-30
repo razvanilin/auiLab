@@ -16,6 +16,7 @@ public class Photo {
     private int fontSize = 20;
     private HashMap<Integer, ArrayList<Pair<Integer, Integer>>> allLines = new HashMap<>();
     private HashMap<Point, ArrayList<String>> allText = new HashMap<>();
+    private ArrayList<Shape> shapeList = new ArrayList<>();
 
     public Photo(String path) {
         setPhoto(path);
@@ -69,5 +70,13 @@ public class Photo {
 
     public HashMap<Point, ArrayList<String>> getAllText() {
         return allText;
+    }
+
+    public ArrayList<Shape> getShapeList() {
+        return shapeList;
+    }
+
+    public void addShape(Shape shape) {
+        shapeList.add(shape);
     }
 }

@@ -8,26 +8,33 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 public class PhotoController extends JComponent {
     private PhotoView view;
     private Photo model;
+    private ToolbarController toolbarController;
+
     private boolean drawingActive = false;
     private boolean typingActive = false;
-
     private ArrayList<Pair<Integer, Integer>> currentLineCords = new ArrayList<>();
-
+    private Shape currentShape;
     private ArrayList<String> currentText = new ArrayList<>();
     private Point currentTextPos;
 
     public PhotoController() {
         setView(new PhotoView(this));
         setModel(new Photo());
+        setToolbar(new ToolbarController(this));
+
+        // uncomment this to pre-load a dummy image
         try {
             setPhoto(new File(".").getCanonicalPath() + "\\assets\\picture1.jpg");
         } catch (IOException e) {
@@ -72,24 +79,42 @@ public class PhotoController extends JComponent {
             }
 
             drawingActive = true;
-            constructPath(true, e.getPoint().x, e.getPoint().y);
+            if (toolbarController.getModel().getActiveShape().equals("Line")) {
+                constructPath(true, e.getPoint().x, e.getPoint().y);
+            } else if (toolbarController.getModel().getActiveShape().equals("Ellipse")) {
+                currentShape = new Ellipse2D.Double(e.getPoint().x, e.getPoint().y, 0, 0);
+                model.addShape(currentShape);
+                repaint();
+            } else if (toolbarController.getModel().getActiveShape().equals("Rectangle")) {
+                currentShape = new Rectangle2D.Double(e.getPoint().x, e.getPoint().y, 0, 0);
+                model.addShape(currentShape);
+                repaint();
+            }
         }
     }
 
     public void mouseDragged(MouseEvent e) {
         if (model.isFlipped() && drawingActive) {
             typingActive = false;
-            constructPath(false, e.getPoint().x, e.getPoint().y);
+            if (toolbarController.getModel().getActiveShape().equals("Line")) {
+                constructPath(false, e.getPoint().x, e.getPoint().y);
+                Line2D shape = (Line2D) currentShape;
+            } else if (toolbarController.getModel().getActiveShape().equals("Ellipse")) {
+                constructEllipse(e.getPoint());
+            } else if (toolbarController.getModel().getActiveShape().equals("Rectangle")) {
+                constructRectangle(e.getPoint());
+            }
         }
     }
 
     public void mouseReleased(MouseEvent e) {
        if (drawingActive) {
            drawingActive = false;
-           if (currentLineCords.size() < 2) {
+           if (currentLineCords.size() < 2 && toolbarController.getModel().getActiveShape().equals("Line")) {
                model.removeLine(model.getLines().keySet().size());
            }
            currentLineCords = new ArrayList<>();
+           currentShape = null;
            repaint();
        }
     }
@@ -123,6 +148,14 @@ public class PhotoController extends JComponent {
         this.model = model;
     }
 
+    private void setToolbar(ToolbarController toolbarController) {
+        this.toolbarController = toolbarController;
+    }
+
+    public ToolbarController getToolbar() {
+        return this.toolbarController;
+    }
+
     private void constructPath(boolean isInitialPoint, int mouseX, int mouseY) {
         int boardX = this.getX() + view.getPadding();
         int boardY = this.getY();
@@ -137,6 +170,32 @@ public class PhotoController extends JComponent {
             } else {
                 model.addLine(model.getLines().keySet().size() - 1, currentLineCords);
             }
+            repaint();
+        }
+    }
+
+    private void constructEllipse(Point2D point) {
+        int boardX = this.getX() + view.getPadding();
+        int boardY = this.getY();
+        int boardW = model.getPhoto().getWidth() + this.getX() + view.getPadding();
+        int boardH = model.getPhoto().getHeight() + this.getY();
+
+        if (point.getX() > boardX && point.getX() < boardW && point.getY() > boardY && point.getY() < boardH) {
+            Ellipse2D shape = (Ellipse2D) currentShape;
+            shape.setFrameFromCenter(new Point2D.Double(((Ellipse2D) currentShape).getCenterX(), ((Ellipse2D) currentShape).getCenterY()), point);
+            repaint();
+        }
+    }
+
+    private void constructRectangle(Point2D point) {
+        int boardX = this.getX() + view.getPadding();
+        int boardY = this.getY();
+        int boardW = model.getPhoto().getWidth() + this.getX() + view.getPadding();
+        int boardH = model.getPhoto().getHeight() + this.getY();
+
+        if (point.getX() > boardX && point.getX() < boardW && point.getY() > boardY && point.getY() < boardH) {
+            Rectangle2D shape = (Rectangle2D) currentShape;
+            shape.setFrameFromCenter(new Point2D.Double(shape.getCenterX(), shape.getCenterY()), point);
             repaint();
         }
     }

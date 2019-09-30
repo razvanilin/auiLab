@@ -1,7 +1,9 @@
 package com.razvanilin.auiLab.photo.view;
 
 import com.razvanilin.auiLab.photo.controller.PhotoController;
+import com.razvanilin.auiLab.photo.controller.ToolbarController;
 import com.razvanilin.auiLab.photo.model.Photo;
+import com.razvanilin.auiLab.photo.model.Toolbar;
 import javafx.util.Pair;
 
 import java.awt.*;
@@ -15,10 +17,12 @@ import java.util.ArrayList;
 
 public class PhotoView {
     private PhotoController ctrl;
+    private ToolbarController toolbar;
     private int padding;
 
     public PhotoView(PhotoController ctrl) {
         this.ctrl = ctrl;
+        this.ctrl.setLayout(new BorderLayout());
         setPadding(0);
         setupListeners();
     }
@@ -29,6 +33,11 @@ public class PhotoView {
 
     public int getPadding() {
         return padding;
+    }
+
+    public void addToolbar(ToolbarController toolbarController) {
+        toolbar = toolbarController;
+//        ctrl.add(toolbar, BorderLayout.NORTH);
     }
 
     public void paint(Graphics g) {
@@ -59,7 +68,7 @@ public class PhotoView {
             // DRAW THE LINES
             if (model.isFlipped() && model.getLines().size() > 0) {
                 g2d.setPaint(Color.BLACK);
-
+                g2d.setStroke(new BasicStroke(2));
                 for (ArrayList<Pair<Integer, Integer>> cords : model.getLines().values()) {
                     if (cords.size() > 2) {
                         GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD, cords.size());
@@ -71,6 +80,14 @@ public class PhotoView {
 
                         g2d.draw(path);
                     }
+                }
+            }
+
+            // DRAW OTHER SHAPES
+            if (model.isFlipped() && model.getShapeList().size() > 0) {
+                g2d.setPaint(Color.BLACK);
+                for (Shape shape : model.getShapeList()) {
+                    g2d.draw(shape);
                 }
             }
 

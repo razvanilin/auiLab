@@ -2,8 +2,10 @@ package com.razvanilin.auiLab.app.view;
 
 import com.razvanilin.auiLab.app.controller.ContentController;
 import com.razvanilin.auiLab.photo.controller.PhotoController;
+import com.razvanilin.auiLab.photo.controller.ToolbarController;
 
 import javax.swing.*;
+import javax.tools.Tool;
 import java.awt.*;
 
 public class ContentView extends JPanel {
@@ -23,12 +25,14 @@ public class ContentView extends JPanel {
        placeholder.setFont(new Font(this.getFont().getFontName(), Font.BOLD, 30));
        this.setLayout(new BorderLayout());
        scrollPane = new JScrollPane();
+
        if (photo.getModel().getPhoto() != null) {
            scrollPane.getViewport().add(photo);
        } else {
            scrollPane.getViewport().add(placeholder);
        }
        scrollPane.getViewport().setBackground(Color.lightGray);
+       this.add(photo.getToolbar(), BorderLayout.NORTH);
        this.add(scrollPane, BorderLayout.CENTER);
    }
 
