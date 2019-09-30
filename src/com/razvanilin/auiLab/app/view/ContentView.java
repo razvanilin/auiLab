@@ -18,8 +18,9 @@ public class ContentView extends JPanel {
    }
 
    private void setup() {
-       JLabel placeholder = new JLabel("Choose File > Import to load an image");
-       placeholder.setBackground(Color.white);
+       JLabel placeholder = new JLabel("Choose 'File' > 'Import' to load an image");
+       placeholder.setForeground(Color.white);
+       placeholder.setFont(new Font(this.getFont().getFontName(), Font.BOLD, 30));
        this.setLayout(new BorderLayout());
        scrollPane = new JScrollPane();
        if (photo.getModel().getPhoto() != null) {

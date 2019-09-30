@@ -24,11 +24,7 @@ public class ContentController {
     }
 
     private void initializeControllers() {
-        try {
-            photoController = new PhotoController(new File(".").getCanonicalPath() + "\\assets\\picture1.jpg");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        photoController = new PhotoController();
     }
 
     public PhotoController getPhotoController() {

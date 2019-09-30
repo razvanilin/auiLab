@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -23,10 +25,14 @@ public class PhotoController extends JComponent {
     private ArrayList<String> currentText = new ArrayList<>();
     private Point currentTextPos;
 
-    public PhotoController(String path) {
+    public PhotoController() {
         setView(new PhotoView(this));
-        setModel(new Photo(path));
-        this.setPreferredSize(new Dimension(model.getPhoto().getWidth(), model.getPhoto().getHeight()));
+        setModel(new Photo());
+//        try {
+//            setPhoto(new File(".").getCanonicalPath() + "\\assets\\picture1.jpg");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public Photo getModel() {
