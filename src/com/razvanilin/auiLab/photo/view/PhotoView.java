@@ -47,7 +47,7 @@ public class PhotoView {
 
         if (photo != null) {
             // calculate the size of the photo taking into consideration the aspect ratio
-            // TODO: handle super small sizes (the ctrl might change size in a weird way)
+            // TODO: implement this on user input - leave for now
             float photoWidth = ctrl.getHeight() * ((float) photo.getWidth() / (float) photo.getHeight()) - 20;
             float photoHeight = ctrl.getWidth() * ((float) photo.getHeight() / (float) photo.getWidth()) - 20;
 
