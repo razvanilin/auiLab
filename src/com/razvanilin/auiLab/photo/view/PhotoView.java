@@ -64,10 +64,10 @@ public class PhotoView {
                 g.drawImage(photo, padding, padding, (int) photo.getWidth(), (int) photo.getHeight(), null);
             }
 
+            g2d.setStroke(new BasicStroke(2));
             // DRAW THE LINES
             if (model.isFlipped() && model.getLines().size() > 0) {
                 g2d.setPaint(Color.BLACK);
-                g2d.setStroke(new BasicStroke(2));
                 for (ArrayList<Pair<Integer, Integer>> cords : model.getLines().values()) {
                     if (cords.size() > 2) {
                         GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD, cords.size());

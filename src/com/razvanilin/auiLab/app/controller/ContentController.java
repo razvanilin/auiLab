@@ -36,5 +36,6 @@ public class ContentController {
     // will eventually do more
     public void emptyCanvas() {
         photoController.removePhoto();
+        view.refreshPhoto();
     }
 }
