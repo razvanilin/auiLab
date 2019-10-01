@@ -79,4 +79,10 @@ public class Photo {
     public void addShape(Shape shape) {
         shapeList.add(shape);
     }
+
+    public void resetArt() {
+        allLines = new HashMap<>();
+        allText = new HashMap<>();
+        shapeList = new ArrayList<>();
+    }
 }

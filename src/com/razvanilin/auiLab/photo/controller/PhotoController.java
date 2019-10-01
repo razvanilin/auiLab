@@ -48,6 +48,8 @@ public class PhotoController extends JComponent {
 
     public void setPhoto(String path) {
        this.model.setPhoto(path);
+       this.model.setFlipped(false);
+       this.model.resetArt();
        this.setPreferredSize(new Dimension(model.getPhoto().getWidth(), model.getPhoto().getHeight()));
     }
 
