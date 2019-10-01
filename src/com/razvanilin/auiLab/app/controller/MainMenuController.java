@@ -24,7 +24,7 @@ public class MainMenuController {
         menuView.getQuitMenuItem().addActionListener((e) -> System.exit(0));
         menuView.getImportMenuItem().addActionListener(this::importClicked);
         menuView.getBrowserMenuItem().addActionListener((e) -> statusController.setStatus("Browser view clicked"));
-        menuView.getDeleteMenuItem().addActionListener((e) -> statusController.setStatus("Delete clicked"));
+        menuView.getDeleteMenuItem().addActionListener(this::deleteClicked);
         menuView.getPhotoMenuItem().addActionListener((e) -> statusController.setStatus("Photo View clicked"));
     }
 
@@ -45,5 +45,10 @@ public class MainMenuController {
                 }
             }
         }
+    }
+
+    private void deleteClicked(ActionEvent e) {
+        statusController.setStatus("The image was removed");
+        mainController.deletePhoto();
     }
 }

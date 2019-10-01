@@ -53,9 +53,16 @@ public class PhotoController extends JComponent {
        this.setPreferredSize(new Dimension(model.getPhoto().getWidth(), model.getPhoto().getHeight()));
     }
 
+    public void removePhoto() {
+        setModel(new Photo());
+        repaint();
+    }
+
     @Override
     public void paintComponent(Graphics g) {
-        this.setSize(model.getPhoto().getWidth(), model.getPhoto().getHeight());
+        if (model.getPhoto() != null) {
+            this.setSize(model.getPhoto().getWidth(), model.getPhoto().getHeight());
+        }
         view.paint(g);
     }
 

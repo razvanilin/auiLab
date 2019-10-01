@@ -37,6 +37,10 @@ public class MainController {
         contentController.setPhoto(path);
     }
 
+    public void deletePhoto() {
+        contentController.emptyCanvas();
+    }
+
     public void addActionListener(ActionListener listener) {
         model.addActionListener(listener);
     }

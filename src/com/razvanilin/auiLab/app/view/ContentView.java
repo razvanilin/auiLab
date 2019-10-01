@@ -41,6 +41,16 @@ public class ContentView extends JPanel {
        this.validate();
    }
 
+   public void emptyCanvas() {
+       this.removeAll();
+       photo.getModel().resetArt();
+       this.validate();
+       this.repaint();
+       this.setup();
+       this.validate();
+       this.repaint();
+   }
+
    @Override
    public void paintComponent(Graphics g) {
        super.paintComponent(g);

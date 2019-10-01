@@ -32,4 +32,9 @@ public class ContentController {
         photoController.setPhoto(path);
         view.refreshPhoto();
     }
+
+    // will eventually do more
+    public void emptyCanvas() {
+        photoController.removePhoto();
+    }
 }
