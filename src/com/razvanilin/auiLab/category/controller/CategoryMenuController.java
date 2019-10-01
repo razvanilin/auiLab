@@ -11,13 +11,23 @@ public class CategoryMenuController {
     private CategoryMenuView categoryMenuView;
     private StatusController statusController;
 
-    public CategoryMenuController(CategoryMenuView categoryMenuView, StatusController statusController) {
-        this.categoryMenuView = categoryMenuView;
+    public CategoryMenuController(StatusController statusController) {
         this.statusController = statusController;
+
+        categoryMenuView = new CategoryMenuView(this);
         categoryModel = new CategoryModel();
+
         setup();
         renderUI();
         registerListeners();
+    }
+
+    public CategoryMenuView getView() {
+        return categoryMenuView;
+    }
+
+    public CategoryModel getModel() {
+        return categoryModel;
     }
 
     private void setup() {

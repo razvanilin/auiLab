@@ -21,6 +21,7 @@ public class ToolbarView {
         JToggleButton ellipseShape = new JToggleButton("Ellipse");
         JToggleButton rectangleShape = new JToggleButton("Rectangle");
 
+        lineShape.setSelected(true);
         lineShape.addActionListener((key) -> {
             ctrl.toolClicked(key.getActionCommand());
             rectangleShape.setSelected(false);

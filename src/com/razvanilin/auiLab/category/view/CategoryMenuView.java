@@ -1,5 +1,6 @@
 package com.razvanilin.auiLab.category.view;
 
+import com.razvanilin.auiLab.category.controller.CategoryMenuController;
 import com.razvanilin.auiLab.category.model.CategoryModel;
 
 import javax.swing.*;
@@ -8,9 +9,11 @@ import java.util.ArrayList;
 
 public class CategoryMenuView extends JPanel {
     private CategoryModel categoryModel;
+    private CategoryMenuController ctrl;
     private ArrayList<JToggleButton> categoryToggles;
 
-    public CategoryMenuView() {
+    public CategoryMenuView(CategoryMenuController ctrl) {
+        this.ctrl = ctrl;
     }
 
     public void setup(CategoryModel categoryModel) {
@@ -23,6 +26,7 @@ public class CategoryMenuView extends JPanel {
         categoryToggles = new ArrayList<JToggleButton>();
         for(String category: categoryModel.getCategories()) {
             JToggleButton catBtn = new JToggleButton(category);
+            catBtn.setPreferredSize(ctrl.getModel().getButtonSize());
             categoryToggles.add(catBtn);
             this.add(catBtn);
         }

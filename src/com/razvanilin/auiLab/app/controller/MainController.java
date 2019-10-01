@@ -19,7 +19,7 @@ public class MainController {
     private MainMenu mainMenu;
     private StatusController statusController;
     private ContentController contentController;
-    private CategoryMenuView categoryMenuView;
+    private CategoryMenuController categoryMenuController;
 
     public MainController() {
         setModel(new MainModel());
@@ -47,17 +47,19 @@ public class MainController {
 
     private void renderViews() {
         view = new MainView();
-        mainMenu = new MainMenu();
-        contentController = new ContentController();
-        categoryMenuView = new CategoryMenuView();
 
+        // constructing the components and passing them to the view where they are placed in the main layout
+        mainMenu = new MainMenu();
         view.setMenu(mainMenu);
+
+        contentController = new ContentController();
         view.setMainContent(contentController.getView());
 
         statusController = new StatusController();
         view.setStatusBar(statusController.getView());
 
-        view.setSideMenu(categoryMenuView);
+        categoryMenuController = new CategoryMenuController(statusController);
+        view.setSideMenu(categoryMenuController.getView());
     }
 
     /*
@@ -66,7 +68,7 @@ public class MainController {
      */
     private void initControllers() {
         MainMenuController mainMenuController = new MainMenuController(mainMenu, this, statusController);
-        CategoryMenuController categoryMenuController = new CategoryMenuController(categoryMenuView, statusController);
+        CategoryMenuController categoryMenuController = new CategoryMenuController(statusController);
 
         view.getFrame().addComponentListener(new ComponentAdapter() {
             @Override
