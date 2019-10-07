@@ -6,6 +6,8 @@ import javafx.util.Pair;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -33,7 +35,8 @@ public class PhotoController extends JComponent {
         setView(new PhotoView(this));
         setModel(new Photo());
         setToolbar(new ToolbarController(this));
-
+        addPhotoActionListener();
+        addPhotoChangeListener();
         // uncomment this to pre-load a dummy image
 //        try {
 //            setPhoto(new File(".").getCanonicalPath() + "\\assets\\picture1.jpg");
@@ -55,7 +58,6 @@ public class PhotoController extends JComponent {
 
     public void removePhoto() {
         setModel(new Photo());
-        repaint();
     }
 
     @Override
@@ -68,8 +70,6 @@ public class PhotoController extends JComponent {
 
     public void doubleClicked() {
         model.setFlipped(!model.isFlipped());
-        repaint();
-        validate();
     }
 
     public void clicked() {
@@ -93,11 +93,9 @@ public class PhotoController extends JComponent {
             } else if (toolbarController.getModel().getActiveShape().equals("Ellipse")) {
                 currentShape = new Ellipse2D.Double(e.getPoint().x, e.getPoint().y, 0, 0);
                 model.addShape(currentShape);
-                repaint();
             } else if (toolbarController.getModel().getActiveShape().equals("Rectangle")) {
                 currentShape = new Rectangle2D.Double(e.getPoint().x, e.getPoint().y, 0, 0);
                 model.addShape(currentShape);
-                repaint();
             }
         }
     }
@@ -124,7 +122,6 @@ public class PhotoController extends JComponent {
            }
            currentLineCords = new ArrayList<>();
            currentShape = null;
-           repaint();
        }
     }
 
@@ -132,7 +129,6 @@ public class PhotoController extends JComponent {
         if (typingActive && model.isFlipped()) {
             currentText.add(String.valueOf(e.getKeyChar()));
             model.addText(currentTextPos, currentText);
-            repaint();
         }
     }
 
@@ -179,7 +175,6 @@ public class PhotoController extends JComponent {
             } else {
                 model.addLine(model.getLines().keySet().size() - 1, currentLineCords);
             }
-            repaint();
         }
     }
 
@@ -192,7 +187,6 @@ public class PhotoController extends JComponent {
         if (point.getX() > boardX && point.getX() < boardW && point.getY() > boardY && point.getY() < boardH) {
             Ellipse2D shape = (Ellipse2D) currentShape;
             shape.setFrameFromCenter(new Point2D.Double(((Ellipse2D) currentShape).getCenterX(), ((Ellipse2D) currentShape).getCenterY()), point);
-            repaint();
         }
     }
 
@@ -205,7 +199,21 @@ public class PhotoController extends JComponent {
         if (point.getX() > boardX && point.getX() < boardW && point.getY() > boardY && point.getY() < boardH) {
             Rectangle2D shape = (Rectangle2D) currentShape;
             shape.setFrameFromCenter(new Point2D.Double(shape.getCenterX(), shape.getCenterY()), point);
-            repaint();
         }
+    }
+
+    private void addPhotoActionListener() {
+        model.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getActionCommand().equals("NEW_SHAPE")) {
+                    repaint();
+                }
+            }
+        });
+    }
+
+    private void addPhotoChangeListener() {
+        model.addChangeListener(e -> repaint());
     }
 }
