@@ -1,5 +1,7 @@
 package com.razvanilin.auiLab.photo.view;
 
+import com.razvanilin.auiLab.annotation.Annotation;
+import com.razvanilin.auiLab.annotation.StrokeAnnotation;
 import com.razvanilin.auiLab.photo.controller.PhotoController;
 import com.razvanilin.auiLab.photo.controller.ToolbarController;
 import com.razvanilin.auiLab.photo.model.Photo;
@@ -64,21 +66,10 @@ public class PhotoView {
                 g.drawImage(photo, padding, padding, (int) photo.getWidth(), (int) photo.getHeight(), null);
             }
 
-            g2d.setStroke(new BasicStroke(2));
-            // DRAW THE LINES
-            if (model.isFlipped() && model.getLines().size() > 0) {
-                g2d.setPaint(Color.BLACK);
-                for (ArrayList<Pair<Integer, Integer>> cords : model.getLines().values()) {
-                    if (cords.size() > 2) {
-                        GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD, cords.size());
-                        path.moveTo(cords.get(0).getKey(), cords.get(0).getValue());
-
-                        for (Pair<Integer, Integer> pair : cords) {
-                            path.lineTo(pair.getKey(), pair.getValue());
-                        }
-
-                        g2d.draw(path);
-                    }
+            // DRAW ANNOTATIONS
+            if (model.isFlipped()) {
+                for (Annotation annotation : model.getAnnotations()) {
+                    annotation.draw(g2d);
                 }
             }
 

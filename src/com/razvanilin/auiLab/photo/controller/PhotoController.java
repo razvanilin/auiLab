@@ -1,5 +1,6 @@
 package com.razvanilin.auiLab.photo.controller;
 
+import com.razvanilin.auiLab.annotation.StrokeAnnotation;
 import com.razvanilin.auiLab.photo.model.Photo;
 import com.razvanilin.auiLab.photo.view.PhotoView;
 import javafx.util.Pair;
@@ -31,18 +32,18 @@ public class PhotoController extends JComponent {
     private ArrayList<String> currentText = new ArrayList<>();
     private Point currentTextPos;
 
+    private StrokeAnnotation currentStroke;
+
     public PhotoController() {
         setView(new PhotoView(this));
         setModel(new Photo());
         setToolbar(new ToolbarController(this));
-        addPhotoActionListener();
-        addPhotoChangeListener();
         // uncomment this to pre-load a dummy image
-//        try {
-//            setPhoto(new File(".").getCanonicalPath() + "\\assets\\picture1.jpg");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            setPhoto(new File(".").getCanonicalPath() + "\\assets\\picture1.jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Photo getModel() {
@@ -117,9 +118,7 @@ public class PhotoController extends JComponent {
     public void mouseReleased(MouseEvent e) {
        if (drawingActive) {
            drawingActive = false;
-           if (currentLineCords.size() < 2 && toolbarController.getModel().getActiveShape().equals("Line")) {
-               model.removeLine(model.getLines().keySet().size());
-           }
+
            currentLineCords = new ArrayList<>();
            currentShape = null;
        }
@@ -151,6 +150,8 @@ public class PhotoController extends JComponent {
 
     private void setModel(Photo model) {
         this.model = model;
+        addPhotoActionListener();
+        addPhotoChangeListener();
     }
 
     private void setToolbar(ToolbarController toolbarController) {
@@ -168,12 +169,11 @@ public class PhotoController extends JComponent {
         int boardH = model.getPhoto().getHeight() + this.getY();
 
         if (mouseX > boardX && mouseX < boardW && mouseY > boardY && mouseY < boardH) {
-            Pair newPoint = new Pair(mouseX, mouseY);
-            currentLineCords.add(newPoint);
             if (isInitialPoint) {
-                model.addLine(model.getLines().keySet().size(), currentLineCords);
+                currentStroke = new StrokeAnnotation(new Point(mouseX, mouseY));
+                model.addAnnotation(currentStroke);
             } else {
-                model.addLine(model.getLines().keySet().size() - 1, currentLineCords);
+                currentStroke.addPoint(new Point(mouseX, mouseY));
             }
         }
     }

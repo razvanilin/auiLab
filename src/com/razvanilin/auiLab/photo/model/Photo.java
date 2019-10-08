@@ -1,5 +1,6 @@
 package com.razvanilin.auiLab.photo.model;
 
+import com.razvanilin.auiLab.annotation.Annotation;
 import javafx.util.Pair;
 
 import javax.imageio.ImageIO;
@@ -18,11 +19,12 @@ public class Photo {
     private boolean flipped;
     private BufferedImage photo;
     private int fontSize = 20;
-    private HashMap<Integer, ArrayList<Pair<Integer, Integer>>> allLines = new HashMap<>();
     private HashMap<Point, ArrayList<String>> allText = new HashMap<>();
     private ArrayList<Shape> shapeList = new ArrayList<>();
     private ArrayList<ActionListener> actionListeners = new ArrayList<>();
     private ArrayList<ChangeListener> changeListeners = new ArrayList<>();
+
+    private ArrayList<Annotation> annotations = new ArrayList<>();
 
     public Photo(String path) {
         setPhoto(path);
@@ -60,20 +62,6 @@ public class Photo {
         this.fontSize = fontSize;
     }
 
-    public void addLine(int key, ArrayList<Pair<Integer, Integer>> line) {
-        allLines.put(key, line);
-        fireActionListener("NEW_SHAPE");
-    }
-
-    public HashMap<Integer, ArrayList<Pair<Integer, Integer>>> getLines() {
-        return allLines;
-    }
-
-    public void removeLine(int key) {
-        allLines.remove(key);
-        fireActionListener("NEW_SHAPE");
-    }
-
     public void addText(Point origin, ArrayList<String> text) {
         allText.put(origin, text);
         fireActionListener("NEW_SHAPE");
@@ -92,10 +80,19 @@ public class Photo {
         fireActionListener("NEW_SHAPE");
     }
 
+    public void addAnnotation(Annotation annotation) {
+        annotations.add(annotation);
+        fireActionListener("NEW_SHAPE");
+    }
+
+    public ArrayList<Annotation> getAnnotations() {
+        return annotations;
+    }
+
     public void resetArt() {
-        allLines = new HashMap<>();
         allText = new HashMap<>();
         shapeList = new ArrayList<>();
+        annotations = new ArrayList<>();
     }
 
     public void addActionListener(ActionListener listener) {

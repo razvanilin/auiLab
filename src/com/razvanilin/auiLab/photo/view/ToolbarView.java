@@ -1,14 +1,17 @@
 package com.razvanilin.auiLab.photo.view;
 
 import com.razvanilin.auiLab.photo.controller.ToolbarController;
+import javafx.animation.Transition;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.dnd.DragGestureEvent;
 import java.util.ArrayList;
 
 public class ToolbarView {
     private ToolbarController ctrl;
     private ArrayList<JToggleButton> shapeToggles = new ArrayList<>();
+    // TODO: Use JColorChooser for the color
 
     public ToolbarView(ToolbarController ctrl) {
         this.ctrl = ctrl;
