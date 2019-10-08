@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Photo {
-    private boolean flipped;
+    private boolean drawing;
     private BufferedImage photo;
     private ArrayList<ActionListener> actionListeners = new ArrayList<>();
     private ArrayList<ChangeListener> changeListeners = new ArrayList<>();
@@ -26,12 +26,12 @@ public class Photo {
 
     public Photo() { }
 
-    public boolean isFlipped() {
-        return flipped;
+    public boolean isDrawing() {
+        return drawing;
     }
 
-    public void setFlipped(boolean flipStatus) {
-        flipped = flipStatus;
+    public void setDrawing(boolean drawStatus) {
+        drawing = drawStatus;
         fireChangeListener();
     }
 

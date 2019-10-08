@@ -47,7 +47,7 @@ public class PhotoController extends JComponent {
 
     public void setPhoto(String path) {
        this.model.setPhoto(path);
-       this.model.setFlipped(false);
+       this.model.setDrawing(false);
        this.model.resetArt();
        this.setPreferredSize(new Dimension(model.getPhoto().getWidth(), model.getPhoto().getHeight()));
     }
@@ -65,7 +65,7 @@ public class PhotoController extends JComponent {
     }
 
     public void doubleClicked() {
-        model.setFlipped(!model.isFlipped());
+        model.setDrawing(!model.isDrawing());
     }
 
     public void clicked() {
@@ -73,7 +73,7 @@ public class PhotoController extends JComponent {
     }
 
     public void mousePressed(MouseEvent e) {
-        if (model.isFlipped()) {
+        if (model.isDrawing()) {
             if (!typingActive) {
                 typingActive = true;
                 currentTextPos = new Point(e.getPoint().x, e.getPoint().y);
@@ -99,7 +99,7 @@ public class PhotoController extends JComponent {
     }
 
     public void mouseDragged(MouseEvent e) {
-        if (model.isFlipped() && drawingActive) {
+        if (model.isDrawing() && drawingActive) {
             typingActive = false;
             switch (toolbarController.getModel().getActiveShape()) {
                 case "Line": {
@@ -124,7 +124,7 @@ public class PhotoController extends JComponent {
     }
 
     public void keyTyped(KeyEvent e) {
-        if (typingActive && model.isFlipped()) {
+        if (typingActive && model.isDrawing()) {
             if (currentText == null) {
                 currentText = new TextAnnotation(20);
                 currentText.setPosition(currentTextPos);

@@ -52,12 +52,10 @@ public class PhotoView {
             g.setColor(Color.WHITE);
             g.fillRect(padding, padding, photo.getWidth(), photo.getHeight());
 
-            if (!model.isFlipped()) {
-                g.drawImage(photo, padding, padding, photo.getWidth(), photo.getHeight(), null);
-            }
+            g.drawImage(photo, padding, padding, photo.getWidth(), photo.getHeight(), null);
 
             // DRAW ANNOTATIONS
-            if (model.isFlipped()) {
+            if (model.isDrawing()) {
                 for (Annotation annotation : model.getAnnotations()) {
                     annotation.draw(g2d);
                 }
