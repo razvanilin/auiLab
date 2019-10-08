@@ -1,7 +1,6 @@
 package com.razvanilin.auiLab.photo.model;
 
 import com.razvanilin.auiLab.annotation.Annotation;
-import javafx.util.Pair;
 
 import javax.imageio.ImageIO;
 import javax.swing.event.ChangeEvent;
@@ -20,7 +19,6 @@ public class Photo {
     private BufferedImage photo;
     private int fontSize = 20;
     private HashMap<Point, ArrayList<String>> allText = new HashMap<>();
-    private ArrayList<Shape> shapeList = new ArrayList<>();
     private ArrayList<ActionListener> actionListeners = new ArrayList<>();
     private ArrayList<ChangeListener> changeListeners = new ArrayList<>();
 
@@ -71,15 +69,6 @@ public class Photo {
         return allText;
     }
 
-    public ArrayList<Shape> getShapeList() {
-        return shapeList;
-    }
-
-    public void addShape(Shape shape) {
-        shapeList.add(shape);
-        fireActionListener("NEW_SHAPE");
-    }
-
     public void addAnnotation(Annotation annotation) {
         annotations.add(annotation);
         fireActionListener("NEW_SHAPE");
@@ -91,7 +80,6 @@ public class Photo {
 
     public void resetArt() {
         allText = new HashMap<>();
-        shapeList = new ArrayList<>();
         annotations = new ArrayList<>();
     }
 

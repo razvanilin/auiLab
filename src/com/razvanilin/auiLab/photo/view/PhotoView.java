@@ -1,24 +1,20 @@
 package com.razvanilin.auiLab.photo.view;
 
 import com.razvanilin.auiLab.annotation.Annotation;
-import com.razvanilin.auiLab.annotation.StrokeAnnotation;
 import com.razvanilin.auiLab.photo.controller.PhotoController;
 import com.razvanilin.auiLab.photo.controller.ToolbarController;
 import com.razvanilin.auiLab.photo.model.Photo;
-import javafx.util.Pair;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class PhotoView {
     private PhotoController ctrl;
-    private ToolbarController toolbar;
     private int padding;
 
     public PhotoView(PhotoController ctrl) {
@@ -34,11 +30,6 @@ public class PhotoView {
 
     public int getPadding() {
         return padding;
-    }
-
-    public void addToolbar(ToolbarController toolbarController) {
-        toolbar = toolbarController;
-//        ctrl.add(toolbar, BorderLayout.NORTH);
     }
 
     public void paint(Graphics g) {
@@ -58,26 +49,19 @@ public class PhotoView {
                 photoWidth = photo.getWidth();
                 photoHeight = photo.getHeight();
             }
+            // --- END of image scaling values calculation
 
             g.setColor(Color.WHITE);
-            g.fillRect(padding, padding, (int)photo.getWidth(), (int)photo.getHeight());
+            g.fillRect(padding, padding, photo.getWidth(), photo.getHeight());
 
             if (!model.isFlipped()) {
-                g.drawImage(photo, padding, padding, (int) photo.getWidth(), (int) photo.getHeight(), null);
+                g.drawImage(photo, padding, padding, photo.getWidth(), photo.getHeight(), null);
             }
 
             // DRAW ANNOTATIONS
             if (model.isFlipped()) {
                 for (Annotation annotation : model.getAnnotations()) {
                     annotation.draw(g2d);
-                }
-            }
-
-            // DRAW OTHER SHAPES
-            if (model.isFlipped() && model.getShapeList().size() > 0) {
-                g2d.setPaint(Color.BLACK);
-                for (Shape shape : model.getShapeList()) {
-                    g2d.draw(shape);
                 }
             }
 
