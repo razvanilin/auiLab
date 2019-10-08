@@ -2,7 +2,6 @@ package com.razvanilin.auiLab.photo.view;
 
 import com.razvanilin.auiLab.annotation.Annotation;
 import com.razvanilin.auiLab.photo.controller.PhotoController;
-import com.razvanilin.auiLab.photo.controller.ToolbarController;
 import com.razvanilin.auiLab.photo.model.Photo;
 
 import java.awt.*;
@@ -11,7 +10,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class PhotoView {
     private PhotoController ctrl;
@@ -62,34 +60,6 @@ public class PhotoView {
             if (model.isFlipped()) {
                 for (Annotation annotation : model.getAnnotations()) {
                     annotation.draw(g2d);
-                }
-            }
-
-            // DRAW THE TEXT
-            if (model.isFlipped()) {
-                g2d.setColor(Color.BLACK);
-                g2d.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, ctrl.getModel().getFontSize()));
-
-                for (Point point : model.getAllText().keySet()) {
-                    ArrayList<String> text = model.getAllText().get(point);
-                    StringBuilder stringToDraw = new StringBuilder();
-                    int typingHeight = point.y;
-                    boolean endReached = false;
-                    for (String s : text) {
-                        stringToDraw.append(s);
-                        // next, make sure the string doesn't get out of the picture by checking both x and y
-                        if (typingHeight >= photo.getHeight() + padding) {
-                            endReached = true;
-                            break;
-                        } else if (g2d.getFontMetrics().stringWidth(stringToDraw.toString()) + point.x >= photo.getWidth() - model.getFontSize()) {
-                            g2d.drawString(stringToDraw.toString(), point.x, typingHeight);
-                            typingHeight += model.getFontSize();
-                            stringToDraw = new StringBuilder();
-                        }
-                    }
-                    if (stringToDraw.length() > 0 && !endReached) {
-                        g2d.drawString(stringToDraw.toString(), point.x, typingHeight);
-                    }
                 }
             }
         }

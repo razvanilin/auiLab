@@ -5,20 +5,16 @@ import com.razvanilin.auiLab.annotation.Annotation;
 import javax.imageio.ImageIO;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Photo {
     private boolean flipped;
     private BufferedImage photo;
-    private int fontSize = 20;
-    private HashMap<Point, ArrayList<String>> allText = new HashMap<>();
     private ArrayList<ActionListener> actionListeners = new ArrayList<>();
     private ArrayList<ChangeListener> changeListeners = new ArrayList<>();
 
@@ -52,23 +48,6 @@ public class Photo {
         return photo;
     }
 
-    public int getFontSize() {
-        return fontSize;
-    }
-
-    public void setFontSize(int fontSize) {
-        this.fontSize = fontSize;
-    }
-
-    public void addText(Point origin, ArrayList<String> text) {
-        allText.put(origin, text);
-        fireActionListener("NEW_SHAPE");
-    }
-
-    public HashMap<Point, ArrayList<String>> getAllText() {
-        return allText;
-    }
-
     public void addAnnotation(Annotation annotation) {
         annotations.add(annotation);
         fireActionListener("NEW_SHAPE");
@@ -79,7 +58,6 @@ public class Photo {
     }
 
     public void resetArt() {
-        allText = new HashMap<>();
         annotations = new ArrayList<>();
     }
 

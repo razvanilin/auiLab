@@ -2,6 +2,7 @@ package com.razvanilin.auiLab.photo.controller;
 
 import com.razvanilin.auiLab.annotation.ShapeAnnotation;
 import com.razvanilin.auiLab.annotation.StrokeAnnotation;
+import com.razvanilin.auiLab.annotation.TextAnnotation;
 import com.razvanilin.auiLab.photo.model.Photo;
 import com.razvanilin.auiLab.photo.view.PhotoView;
 
@@ -13,7 +14,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 
 public class PhotoController extends JComponent {
@@ -23,11 +23,11 @@ public class PhotoController extends JComponent {
 
     private boolean drawingActive = false;
     private boolean typingActive = false;
-    private ArrayList<String> currentText = new ArrayList<>();
     private Point currentTextPos;
 
     private StrokeAnnotation currentStroke;
     private ShapeAnnotation currentShape;
+    private TextAnnotation currentText;
 
     public PhotoController() {
         setView(new PhotoView(this));
@@ -80,7 +80,7 @@ public class PhotoController extends JComponent {
             } else {
                 typingActive = false;
                 currentTextPos = null;
-                currentText = new ArrayList<>();
+                currentText = null;
             }
 
             drawingActive = true;
@@ -125,20 +125,26 @@ public class PhotoController extends JComponent {
 
     public void keyTyped(KeyEvent e) {
         if (typingActive && model.isFlipped()) {
-            currentText.add(String.valueOf(e.getKeyChar()));
-            model.addText(currentTextPos, currentText);
+            if (currentText == null) {
+                currentText = new TextAnnotation(20);
+                currentText.setPosition(currentTextPos);
+                currentText.setBounds(new Rectangle(model.getPhoto().getWidth(), model.getPhoto().getHeight()));
+                model.addAnnotation(currentText);
+            }
+
+            currentText.addToString(String.valueOf(e.getKeyChar()));
         }
     }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentText.size() > 0) {
-            currentText.remove(currentText.size() - 1);
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            currentText.removeLast();
         }
     }
 
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE && currentText.size() > 0) {
-            currentText.remove(currentText.size() - 1);
+        if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+            currentText.removeLast();
         }
     }
 
