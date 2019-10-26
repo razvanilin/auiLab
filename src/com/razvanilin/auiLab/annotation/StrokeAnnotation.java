@@ -5,6 +5,7 @@ import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
 public class StrokeAnnotation extends Annotation {
+    private boolean selected = false;
     private Point startPoint;
     private ArrayList<Point> points = new ArrayList<>();
     public StrokeAnnotation(Point point) {
@@ -25,7 +26,12 @@ public class StrokeAnnotation extends Annotation {
         g.setStroke(new BasicStroke(2));
         // DRAW THE LINES
         if (points.size() < 2) return;
-        g.setPaint(Color.BLACK);
+
+        if (selected) {
+            g.setPaint(Color.RED);
+        } else {
+            g.setPaint(Color.BLACK);
+        }
         GeneralPath path = new GeneralPath(GeneralPath.WIND_EVEN_ODD, points.size());
         path.moveTo(startPoint.x, startPoint.y);
 
@@ -34,5 +40,24 @@ public class StrokeAnnotation extends Annotation {
         }
 
         g.draw(path);
+    }
+
+    @Override
+    public boolean checkIfHit(int x, int y) {
+        for (Point point : points) {
+            if (
+                    (point.x < x + 5 && point.x > x - 5)
+                    && (point.y < y + 5 && point.y > y - 5)
+            ) {
+                selected = true;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void deselect() {
+        selected = false;
     }
 }

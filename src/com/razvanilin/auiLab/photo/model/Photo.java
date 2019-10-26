@@ -57,6 +57,12 @@ public class Photo {
         return annotations;
     }
 
+    public void deselectAnnotations(){
+        for (Annotation annotation : annotations) {
+            annotation.deselect();
+        }
+    }
+
     public void resetArt() {
         annotations = new ArrayList<>();
     }

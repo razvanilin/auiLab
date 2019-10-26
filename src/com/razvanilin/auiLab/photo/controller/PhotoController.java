@@ -1,5 +1,6 @@
 package com.razvanilin.auiLab.photo.controller;
 
+import com.razvanilin.auiLab.annotation.Annotation;
 import com.razvanilin.auiLab.annotation.ShapeAnnotation;
 import com.razvanilin.auiLab.annotation.StrokeAnnotation;
 import com.razvanilin.auiLab.annotation.TextAnnotation;
@@ -14,6 +15,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class PhotoController extends JComponent {
@@ -23,11 +25,14 @@ public class PhotoController extends JComponent {
 
     private boolean drawingActive = false;
     private boolean typingActive = false;
+    private boolean shiftPressed = false;
     private Point currentTextPos;
 
     private StrokeAnnotation currentStroke;
     private ShapeAnnotation currentShape;
     private TextAnnotation currentText;
+
+    private Annotation selectedAnnotation;
 
     public PhotoController() {
         setView(new PhotoView(this));
@@ -68,12 +73,13 @@ public class PhotoController extends JComponent {
         model.setDrawing(!model.isDrawing());
     }
 
-    public void clicked() {
+    public void clicked(MouseEvent e) {
         this.requestFocus();
-    }
 
-    public void mousePressed(MouseEvent e) {
-        if (model.isDrawing()) {
+        if (!shiftPressed) model.deselectAnnotations();
+        if (selectShape(e.getPoint().x, e.getPoint().y)) {
+
+        } else {
             if (!typingActive) {
                 typingActive = true;
                 currentTextPos = new Point(e.getPoint().x, e.getPoint().y);
@@ -82,6 +88,11 @@ public class PhotoController extends JComponent {
                 currentTextPos = null;
                 currentText = null;
             }
+        }
+    }
+
+    public void mousePressed(MouseEvent e) {
+        if (model.isDrawing()) {
 
             drawingActive = true;
             if (toolbarController.getModel().getActiveShape().equals("Line")) {
@@ -140,11 +151,17 @@ public class PhotoController extends JComponent {
         if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
             currentText.removeLast();
         }
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            shiftPressed = true;
+        }
     }
 
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
             currentText.removeLast();
+        }
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            shiftPressed = false;
         }
     }
 
@@ -176,8 +193,8 @@ public class PhotoController extends JComponent {
         if (mouseX > boardX && mouseX < boardW && mouseY > boardY && mouseY < boardH) {
             if (isInitialPoint) {
                 currentStroke = new StrokeAnnotation(new Point(mouseX, mouseY));
-                model.addAnnotation(currentStroke);
             } else {
+                if (currentStroke.getPoints().size() == 2) model.addAnnotation(currentStroke);
                 currentStroke.addPoint(new Point(mouseX, mouseY));
             }
         }
@@ -204,5 +221,19 @@ public class PhotoController extends JComponent {
 
     private void addPhotoChangeListener() {
         model.addChangeListener(e -> repaint());
+    }
+
+    private boolean selectShape(int x, int y) {
+        ArrayList<Annotation> annotations = model.getAnnotations();
+
+        // loop through the array from end to start to make sure that shapes that are on top are selected first
+        for (int i = annotations.size() - 1; i >= 0; i--) {
+            Annotation shape = annotations.get(i);
+            if (shape.checkIfHit(x, y)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

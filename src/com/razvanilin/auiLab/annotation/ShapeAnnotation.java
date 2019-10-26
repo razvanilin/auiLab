@@ -35,8 +35,18 @@ public class ShapeAnnotation extends Annotation {
     }
 
     @Override
+    public void deselect() {
+
+    }
+
+    @Override
     public void draw(Graphics2D g) {
         g.setPaint(Color.BLACK);
         g.draw(shape);
+    }
+
+    @Override
+    public boolean checkIfHit(int x, int y) {
+        return false;
     }
 }

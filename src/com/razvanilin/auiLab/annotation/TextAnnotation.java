@@ -37,6 +37,11 @@ public class TextAnnotation extends Annotation {
     }
 
     @Override
+    public void deselect() {
+
+    }
+
+    @Override
     public void draw(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, fontSize));
@@ -59,5 +64,10 @@ public class TextAnnotation extends Annotation {
         if (stringToDraw.length() > 0 && !endReached) {
             g.drawString(stringToDraw.toString(), position.x, typingHeight);
         }
+    }
+
+    @Override
+    public boolean checkIfHit(int x, int y) {
+        return false;
     }
 }

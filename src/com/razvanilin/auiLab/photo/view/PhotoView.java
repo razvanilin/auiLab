@@ -70,7 +70,7 @@ public class PhotoView {
                 if (e.getClickCount() > 1) {
                     ctrl.doubleClicked();
                 } else {
-                    ctrl.clicked();
+                    ctrl.clicked(e);
                 }
             }
 
