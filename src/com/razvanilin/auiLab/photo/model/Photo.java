@@ -1,12 +1,14 @@
 package com.razvanilin.auiLab.photo.model;
 
 import com.razvanilin.auiLab.annotation.Annotation;
+import fr.lri.swingstates.canvas.CImage;
 
 import javax.imageio.ImageIO;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,10 +21,6 @@ public class Photo {
     private ArrayList<ChangeListener> changeListeners = new ArrayList<>();
 
     private ArrayList<Annotation> annotations = new ArrayList<>();
-
-    public Photo(String path) {
-        setPhoto(path);
-    }
 
     public Photo() { }
 
@@ -59,6 +57,14 @@ public class Photo {
 
     public void resetArt() {
         annotations = new ArrayList<>();
+    }
+
+    public int getWidth() {
+        return photo.getWidth();
+    }
+
+    public int getHeight() {
+        return photo.getHeight();
     }
 
     public void addActionListener(ActionListener listener) {

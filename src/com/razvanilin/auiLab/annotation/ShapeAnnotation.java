@@ -1,5 +1,7 @@
 package com.razvanilin.auiLab.annotation;
 
+import fr.lri.swingstates.canvas.CShape;
+
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -38,5 +40,10 @@ public class ShapeAnnotation extends Annotation {
     public void draw(Graphics2D g) {
         g.setPaint(Color.BLACK);
         g.draw(shape);
+    }
+
+    @Override
+    public CShape getDrawObject() {
+        return null;
     }
 }

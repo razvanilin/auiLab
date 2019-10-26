@@ -1,14 +1,26 @@
 package com.razvanilin.auiLab.photo.controller;
 
+import com.razvanilin.auiLab.annotation.Annotation;
 import com.razvanilin.auiLab.annotation.ShapeAnnotation;
 import com.razvanilin.auiLab.annotation.StrokeAnnotation;
 import com.razvanilin.auiLab.annotation.TextAnnotation;
 import com.razvanilin.auiLab.photo.model.Photo;
 import com.razvanilin.auiLab.photo.view.PhotoView;
+import fr.lri.swingstates.canvas.CPolyLine;
+import fr.lri.swingstates.canvas.CShape;
+import fr.lri.swingstates.canvas.CStateMachine;
+import fr.lri.swingstates.canvas.Canvas;
+import fr.lri.swingstates.sm.BasicInputStateMachine;
+import fr.lri.swingstates.sm.State;
+import fr.lri.swingstates.sm.Transition;
+import fr.lri.swingstates.sm.jtransitions.ClickOnComponent;
+import fr.lri.swingstates.sm.transitions.Click;
+import fr.lri.swingstates.sm.transitions.Press;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
@@ -29,6 +41,19 @@ public class PhotoController extends JComponent {
     private ShapeAnnotation currentShape;
     private TextAnnotation currentText;
 
+    private Canvas canvas = new Canvas();
+
+    private BasicInputStateMachine sm = new BasicInputStateMachine() {
+        public State in = new State() {
+            Transition press = new Click() {
+                public void action() {
+                    MouseEvent event = (MouseEvent)getEvent();
+                    StrokeAnnotation stroke = (StrokeAnnotation) event.getComponent();
+                }
+            };
+        };
+    };
+
     public PhotoController() {
         setView(new PhotoView(this));
         setModel(new Photo());
@@ -39,6 +64,8 @@ public class PhotoController extends JComponent {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //add(canvas);
     }
 
     public Photo getModel() {
@@ -49,7 +76,7 @@ public class PhotoController extends JComponent {
        this.model.setPhoto(path);
        this.model.setDrawing(false);
        this.model.resetArt();
-       this.setPreferredSize(new Dimension(model.getPhoto().getWidth(), model.getPhoto().getHeight()));
+       this.setPreferredSize(new Dimension(model.getWidth(), model.getHeight()));
     }
 
     public void removePhoto() {
@@ -59,7 +86,7 @@ public class PhotoController extends JComponent {
     @Override
     public void paintComponent(Graphics g) {
         if (model.getPhoto() != null) {
-            this.setSize(model.getPhoto().getWidth(), model.getPhoto().getHeight());
+            this.setSize(model.getWidth(), model.getHeight());
         }
         view.paint(g);
     }
@@ -128,7 +155,7 @@ public class PhotoController extends JComponent {
             if (currentText == null) {
                 currentText = new TextAnnotation(20);
                 currentText.setPosition(currentTextPos);
-                currentText.setBounds(new Rectangle(model.getPhoto().getWidth(), model.getPhoto().getHeight()));
+                currentText.setBounds(new Rectangle(model.getWidth(), model.getHeight()));
                 model.addAnnotation(currentText);
             }
 
@@ -151,6 +178,7 @@ public class PhotoController extends JComponent {
     /* Private methods */
     private void setView(PhotoView view) {
         this.view = view;
+        this.view.setupUI();
     }
 
     private void setModel(Photo model) {
@@ -167,18 +195,25 @@ public class PhotoController extends JComponent {
         return this.toolbarController;
     }
 
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
     private void constructPath(boolean isInitialPoint, int mouseX, int mouseY) {
         int boardX = this.getX() + view.getPadding();
         int boardY = this.getY();
-        int boardW = model.getPhoto().getWidth() + this.getX() + view.getPadding();
-        int boardH = model.getPhoto().getHeight() + this.getY();
+        int boardW = model.getWidth() + this.getX() + view.getPadding();
+        int boardH = model.getHeight() + this.getY();
 
         if (mouseX > boardX && mouseX < boardW && mouseY > boardY && mouseY < boardH) {
             if (isInitialPoint) {
                 currentStroke = new StrokeAnnotation(new Point(mouseX, mouseY));
+                currentStroke.setupCanvas(canvas);
                 model.addAnnotation(currentStroke);
+                sm.addAsListenerOf(currentStroke);
             } else {
                 currentStroke.addPoint(new Point(mouseX, mouseY));
+                repaint();
             }
         }
     }
@@ -186,8 +221,8 @@ public class PhotoController extends JComponent {
     private void constructShape(Point point) {
         int boardX = this.getX() + view.getPadding();
         int boardY = this.getY();
-        int boardW = model.getPhoto().getWidth() + this.getX() + view.getPadding();
-        int boardH = model.getPhoto().getHeight() + this.getY();
+        int boardW = model.getWidth() + this.getX() + view.getPadding();
+        int boardH = model.getHeight() + this.getY();
 
         if (point.getX() > boardX && point.getX() < boardW && point.getY() > boardY && point.getY() < boardH) {
             currentShape.resize(point);

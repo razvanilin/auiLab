@@ -3,6 +3,9 @@ package com.razvanilin.auiLab.photo.view;
 import com.razvanilin.auiLab.annotation.Annotation;
 import com.razvanilin.auiLab.photo.controller.PhotoController;
 import com.razvanilin.auiLab.photo.model.Photo;
+import fr.lri.swingstates.canvas.CPolyLine;
+import fr.lri.swingstates.canvas.CShape;
+import fr.lri.swingstates.canvas.Canvas;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -17,9 +20,15 @@ public class PhotoView {
 
     public PhotoView(PhotoController ctrl) {
         this.ctrl = ctrl;
-        this.ctrl.setLayout(new BorderLayout());
         setPadding(0);
         setupListeners();
+    }
+
+    public void setupUI() {
+        Canvas canvas = ctrl.getCanvas();
+        canvas.setPreferredSize(ctrl.getPreferredSize());
+        canvas.setBackground(Color.white);
+        ctrl.add(canvas);
     }
 
     public void setPadding(int padding) {
@@ -58,6 +67,9 @@ public class PhotoView {
             if (model.isDrawing()) {
                 for (Annotation annotation : model.getAnnotations()) {
                     annotation.draw(g2d);
+//                    Canvas cnv = ctrl.getCanvas();
+//                    cnv.addShape(annotation.getDrawObject());
+
                 }
             }
         }

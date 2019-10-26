@@ -1,5 +1,7 @@
 package com.razvanilin.auiLab.annotation;
 
+import fr.lri.swingstates.canvas.CShape;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -59,5 +61,10 @@ public class TextAnnotation extends Annotation {
         if (stringToDraw.length() > 0 && !endReached) {
             g.drawString(stringToDraw.toString(), position.x, typingHeight);
         }
+    }
+
+    @Override
+    public CShape getDrawObject() {
+        return null;
     }
 }
