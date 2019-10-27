@@ -5,6 +5,7 @@ import com.razvanilin.auiLab.photo.view.ToolbarView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class ToolbarController extends JComponent {
     private Toolbar model;
@@ -38,4 +39,15 @@ public class ToolbarController extends JComponent {
     public void toolClicked(String key) {
         model.setShape(key);
     }
+
+    public void chooseColor(ActionEvent e) {
+        Color newColor = JColorChooser.showDialog(
+                this,
+                "Choose Shape Color",
+                this.getBackground());
+        if(newColor != null) {
+            model.setColor(newColor);
+        }
+    }
+
 }

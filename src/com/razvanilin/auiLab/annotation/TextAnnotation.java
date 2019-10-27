@@ -37,6 +37,11 @@ public class TextAnnotation extends Annotation {
     }
 
     @Override
+    public boolean isSelected() {
+        return this.selected;
+    }
+
+    @Override
     public void deselect() {
 
     }
@@ -69,5 +74,10 @@ public class TextAnnotation extends Annotation {
     @Override
     public boolean checkIfHit(int x, int y) {
         return false;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

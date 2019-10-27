@@ -5,6 +5,7 @@ import com.razvanilin.auiLab.annotation.Annotation;
 import javax.imageio.ImageIO;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -57,10 +58,19 @@ public class Photo {
         return annotations;
     }
 
-    public void deselectAnnotations(){
+    public void deselectAnnotations() {
         for (Annotation annotation : annotations) {
             annotation.deselect();
         }
+    }
+
+    public void setAnnotationsColor(Color color) {
+        for (Annotation annotation : annotations) {
+            if (annotation.isSelected()) {
+                annotation.setColor(color);
+            }
+        }
+        fireChangeListener();
     }
 
     public void resetArt() {

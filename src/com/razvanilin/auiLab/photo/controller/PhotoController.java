@@ -178,6 +178,11 @@ public class PhotoController extends JComponent {
 
     private void setToolbar(ToolbarController toolbarController) {
         this.toolbarController = toolbarController;
+        this.toolbarController.getModel().addActionListener(e -> {
+            if (e.getActionCommand().equals("CHANGE_COLOR")) {
+                model.setAnnotationsColor(this.toolbarController.getModel().getColor());
+            }
+        });
     }
 
     public ToolbarController getToolbar() {

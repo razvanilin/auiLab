@@ -35,6 +35,11 @@ public class ShapeAnnotation extends Annotation {
     }
 
     @Override
+    public boolean isSelected() {
+        return selected;
+    }
+
+    @Override
     public void deselect() {
 
     }
@@ -48,5 +53,10 @@ public class ShapeAnnotation extends Annotation {
     @Override
     public boolean checkIfHit(int x, int y) {
         return false;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
     }
 }
