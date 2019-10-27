@@ -92,7 +92,11 @@ public class TextAnnotation extends Annotation {
     @Override
     public boolean checkIfHit(int x, int y) {
         if (x <= position.x + size.width && x >= position.x && y <= size.height && y >= position.y - fontSize) {
-            this.selected = true;
+            if (this.selected) {
+                deselect();
+            } else {
+                this.selected = true;
+            }
             return true;
         }
 
@@ -107,6 +111,7 @@ public class TextAnnotation extends Annotation {
 
     @Override
     public void move(Point point) {
-
+        position.x += point.x;
+        position.y += point.y;
     }
 }

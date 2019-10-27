@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.EventListener;
 
 public class ShapeAnnotation extends Annotation {
     public enum SHAPE_TYPE {
@@ -60,15 +61,21 @@ public class ShapeAnnotation extends Annotation {
         if (type == SHAPE_TYPE.RECTANGLE) {
             Rectangle2D rect = (Rectangle2D) shape;
             if (x <= rect.getX() + rect.getWidth() && x >= rect.getX() && y <= rect.getY() + rect.getHeight() && y >= rect.getY()) {
-                this.selected = true;
-                System.out.println("clicked");
+                if (this.selected) {
+                    deselect();
+                } else {
+                    this.selected = true;
+                }
             }
         } else if (type == SHAPE_TYPE.ELLIPSE) {
             Ellipse2D ellipse = (Ellipse2D) shape;
             if (x <= ellipse.getCenterX() + (ellipse.getWidth() / 2) && x >= ellipse.getCenterX() - (ellipse.getWidth() / 2)
             && y <= ellipse.getCenterY() + (ellipse.getHeight() / 2) && y >= ellipse.getCenterY() - (ellipse.getHeight() / 2)) {
-                this.selected = true;
-                System.out.println("Selected ellipse");
+                if (this.selected) {
+                    deselect();
+                } else {
+                    this.selected = true;
+                }
             }
         }
 
@@ -82,6 +89,17 @@ public class ShapeAnnotation extends Annotation {
 
     @Override
     public void move(Point point) {
-
+        switch (type) {
+            case RECTANGLE: {
+                Rectangle2D rect = (Rectangle2D) shape;
+                rect.setFrame(rect.getX() + point.x, rect.getY() + point.y, rect.getWidth(), rect.getHeight());
+                break;
+            }
+            case ELLIPSE: {
+                Ellipse2D ellipse = (Ellipse2D) shape;
+                ellipse.setFrame(ellipse.getX() + point.x, ellipse.getY() + point.y, ellipse.getWidth(), ellipse.getHeight());
+                break;
+            }
+        }
     }
 }

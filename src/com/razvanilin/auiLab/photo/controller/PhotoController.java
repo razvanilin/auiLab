@@ -97,10 +97,12 @@ public class PhotoController extends JComponent {
             if (toolbarController.getModel().getActiveShape().equals("Line")) {
                 constructPath(true, e.getPoint().x, e.getPoint().y);
             } else if (toolbarController.getModel().getActiveShape().equals("Ellipse")) {
+                System.out.println("Creating an ellipse");
                 Ellipse2D newEllipse = new Ellipse2D.Double(e.getPoint().x, e.getPoint().y, 0, 0);
                 currentShape = new ShapeAnnotation(newEllipse, ShapeAnnotation.SHAPE_TYPE.ELLIPSE);
                 model.addAnnotation(currentShape);
             } else if (toolbarController.getModel().getActiveShape().equals("Rectangle")) {
+                System.out.println("Creating a rectangle");
                 Rectangle2D newRectangle = new Rectangle2D.Double(e.getPoint().x, e.getPoint().y, 0, 0);
                 currentShape = new ShapeAnnotation(newRectangle, ShapeAnnotation.SHAPE_TYPE.RECTANGLE);
                 model.addAnnotation(currentShape);
@@ -129,7 +131,9 @@ public class PhotoController extends JComponent {
                 default:
                     break;
             }
-        } else if (model.isDrawing() && isMove) {
+        } else if (model.isDrawing() && isMove
+                && e.getPoint().x < model.getPhoto().getWidth() && e.getPoint().y < model.getPhoto().getHeight()
+        ) {
            model.moveAnnotations(new Point(e.getPoint().x - moveStartPoint.x, e.getPoint().y - moveStartPoint.y));
            moveStartPoint = e.getPoint();
         }
@@ -139,6 +143,8 @@ public class PhotoController extends JComponent {
        if (drawingActive) {
            drawingActive = false;
        }
+
+       moveStartPoint = null;
     }
 
     public void keyTyped(KeyEvent e) {

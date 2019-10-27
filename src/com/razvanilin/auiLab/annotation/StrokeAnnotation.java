@@ -49,7 +49,11 @@ public class StrokeAnnotation extends Annotation {
                     (point.x < x + 5 && point.x > x - 5)
                     && (point.y < y + 5 && point.y > y - 5)
             ) {
-                this.selected = true;
+                if (this.selected) {
+                    deselect();
+                } else {
+                    this.selected = true;
+                }
                 return true;
             }
         }

@@ -75,10 +75,9 @@ public class Photo {
 
     public void moveAnnotations(Point point) {
         for (Annotation annotation : annotations) {
-//            if (annotation.isSelected()) {
-                System.out.println("Found one");
+            if (annotation.isSelected()) {
                 annotation.move(point);
-//            }
+            }
         }
         fireChangeListener();;
     }
