@@ -12,6 +12,7 @@ public class Toolbar {
     private String activeShape;
     private ArrayList<ActionListener> actionListeners = new ArrayList<>();
     private Color color;
+    private boolean move = false;
 
     public Toolbar() {
         activeShape = "Line";
@@ -33,6 +34,17 @@ public class Toolbar {
 
     public Color getColor() {
         return this.color;
+    }
+
+    public void toggleMove() {
+        this.move = !this.move;
+        if (!this.move) {
+            fireListeners("MOVE_DEACTIVATED");
+        }
+    }
+
+    public boolean isMoveActive() {
+        return this.move;
     }
 
     public void addActionListener(ActionListener listener) {

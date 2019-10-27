@@ -48,12 +48,20 @@ public class ToolbarView {
             ctrl.chooseColor(e);
         });
 
+        JToggleButton moveBtn = new JToggleButton("Move");
+
+        moveBtn.addActionListener(e -> {
+            //moveBtn.setSelected(!moveBtn.isSelected());
+            ctrl.toggleMove();
+        });
+
         JPanel btnPanel = new JPanel();
         btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.X_AXIS));
         btnPanel.add(lineShape);
         btnPanel.add(ellipseShape);
         btnPanel.add(rectangleShape);
         btnPanel.add(colorChooserBtn);
+        btnPanel.add(moveBtn);
 
         ctrl.add(btnPanel, BorderLayout.CENTER);
     }

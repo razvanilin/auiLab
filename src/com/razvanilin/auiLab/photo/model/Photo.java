@@ -73,6 +73,16 @@ public class Photo {
         fireChangeListener();
     }
 
+    public void moveAnnotations(Point point) {
+        for (Annotation annotation : annotations) {
+//            if (annotation.isSelected()) {
+                System.out.println("Found one");
+                annotation.move(point);
+//            }
+        }
+        fireChangeListener();;
+    }
+
     public void resetArt() {
         annotations = new ArrayList<>();
     }

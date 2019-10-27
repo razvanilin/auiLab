@@ -79,4 +79,9 @@ public class ShapeAnnotation extends Annotation {
     public void setColor(Color color) {
         this.color = color;
     }
+
+    @Override
+    public void move(Point point) {
+
+    }
 }

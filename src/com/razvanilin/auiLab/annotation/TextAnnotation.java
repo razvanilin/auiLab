@@ -104,4 +104,9 @@ public class TextAnnotation extends Annotation {
         this.color = color;
         this.selected = false;
     }
+
+    @Override
+    public void move(Point point) {
+
+    }
 }

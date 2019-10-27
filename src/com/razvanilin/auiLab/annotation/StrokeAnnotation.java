@@ -62,6 +62,15 @@ public class StrokeAnnotation extends Annotation {
     }
 
     @Override
+    public void move(Point position) {
+        System.out.println("Move: " + position.x + " - " + position.y);
+        for (Point point : points) {
+            point.x += position.x;
+            point.y += position.y;
+        }
+    }
+
+    @Override
     public boolean isSelected() {
         return this.selected;
     }

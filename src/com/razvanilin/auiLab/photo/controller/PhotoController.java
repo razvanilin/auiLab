@@ -32,7 +32,7 @@ public class PhotoController extends JComponent {
     private ShapeAnnotation currentShape;
     private TextAnnotation currentText;
 
-    private Annotation selectedAnnotation;
+    private Point moveStartPoint;
 
     public PhotoController() {
         setView(new PhotoView(this));
@@ -92,8 +92,7 @@ public class PhotoController extends JComponent {
     }
 
     public void mousePressed(MouseEvent e) {
-        if (model.isDrawing()) {
-
+        if (model.isDrawing() && !toolbarController.getModel().isMoveActive()) {
             drawingActive = true;
             if (toolbarController.getModel().getActiveShape().equals("Line")) {
                 constructPath(true, e.getPoint().x, e.getPoint().y);
@@ -110,7 +109,12 @@ public class PhotoController extends JComponent {
     }
 
     public void mouseDragged(MouseEvent e) {
-        if (model.isDrawing() && drawingActive) {
+        boolean isMove = toolbarController.getModel().isMoveActive();
+        if (moveStartPoint == null) {
+            moveStartPoint = new Point(e.getPoint());
+        }
+
+        if (model.isDrawing() && drawingActive && !isMove) {
             typingActive = false;
             switch (toolbarController.getModel().getActiveShape()) {
                 case "Line": {
@@ -125,6 +129,9 @@ public class PhotoController extends JComponent {
                 default:
                     break;
             }
+        } else if (model.isDrawing() && isMove) {
+           model.moveAnnotations(new Point(e.getPoint().x - moveStartPoint.x, e.getPoint().y - moveStartPoint.y));
+           moveStartPoint = e.getPoint();
         }
     }
 
@@ -181,6 +188,9 @@ public class PhotoController extends JComponent {
         this.toolbarController.getModel().addActionListener(e -> {
             if (e.getActionCommand().equals("CHANGE_COLOR")) {
                 model.setAnnotationsColor(this.toolbarController.getModel().getColor());
+            }
+            if (e.getActionCommand().equals("MOVE_DEACTIVATED")) {
+                moveStartPoint = null;
             }
         });
     }

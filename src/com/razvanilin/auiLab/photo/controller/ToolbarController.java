@@ -50,4 +50,7 @@ public class ToolbarController extends JComponent {
         }
     }
 
+    public void toggleMove() {
+        model.toggleMove();
+    }
 }

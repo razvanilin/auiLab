@@ -10,4 +10,5 @@ public abstract class Annotation {
     abstract public void draw(Graphics2D g);
     abstract public boolean checkIfHit(int x, int y);
     abstract public void setColor(Color color);
+    abstract public void move(Point point);
 }
