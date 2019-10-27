@@ -1,19 +1,15 @@
 package com.razvanilin.auiLab.photo.view;
 
 import com.razvanilin.auiLab.photo.controller.ToolbarController;
-import javafx.animation.Transition;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class ToolbarView {
     private ToolbarController ctrl;
-    private ArrayList<JToggleButton> shapeToggles = new ArrayList<>();
-    private JColorChooser colorChooser;
+    private JToggleButton lineShape = new JToggleButton("Line");
+    private JToggleButton ellipseShape = new JToggleButton("Ellipse");
+    private JToggleButton rectangleShape = new JToggleButton("Rectangle");
 
     public ToolbarView(ToolbarController ctrl) {
         this.ctrl = ctrl;
@@ -22,9 +18,6 @@ public class ToolbarView {
 
     public void setup() {
         ctrl.setLayout(new BorderLayout());
-        JToggleButton lineShape = new JToggleButton("Line");
-        JToggleButton ellipseShape = new JToggleButton("Ellipse");
-        JToggleButton rectangleShape = new JToggleButton("Rectangle");
 
         lineShape.setSelected(true);
         lineShape.addActionListener((key) -> {
@@ -51,8 +44,8 @@ public class ToolbarView {
         JToggleButton moveBtn = new JToggleButton("Move");
 
         moveBtn.addActionListener(e -> {
-            //moveBtn.setSelected(!moveBtn.isSelected());
             ctrl.toggleMove();
+            setShapeEnabled(!moveBtn.isSelected());
         });
 
         JPanel btnPanel = new JPanel();
@@ -60,12 +53,20 @@ public class ToolbarView {
         btnPanel.add(lineShape);
         btnPanel.add(ellipseShape);
         btnPanel.add(rectangleShape);
+
+        JSeparator separator = new JSeparator(JSeparator.VERTICAL);
+        separator.setMaximumSize(new Dimension(20, 1));
+
+        btnPanel.add(separator);
         btnPanel.add(colorChooserBtn);
         btnPanel.add(moveBtn);
 
         ctrl.add(btnPanel, BorderLayout.CENTER);
     }
 
-    public void paint(Graphics g) {
+    private void setShapeEnabled(boolean status) {
+        lineShape.setEnabled(status);
+        ellipseShape.setEnabled(status);
+        rectangleShape.setEnabled(status);
     }
 }

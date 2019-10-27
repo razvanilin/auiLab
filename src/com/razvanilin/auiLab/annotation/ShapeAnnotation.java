@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.EventListener;
 
 public class ShapeAnnotation extends Annotation {
     public enum SHAPE_TYPE {

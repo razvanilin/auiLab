@@ -4,6 +4,7 @@ import com.razvanilin.auiLab.annotation.Annotation;
 import com.razvanilin.auiLab.annotation.ShapeAnnotation;
 import com.razvanilin.auiLab.annotation.StrokeAnnotation;
 import com.razvanilin.auiLab.annotation.TextAnnotation;
+import com.razvanilin.auiLab.app.controller.StatusController;
 import com.razvanilin.auiLab.photo.model.Photo;
 import com.razvanilin.auiLab.photo.view.PhotoView;
 
@@ -22,6 +23,7 @@ public class PhotoController extends JComponent {
     private PhotoView view;
     private Photo model;
     private ToolbarController toolbarController;
+    private StatusController statusController;
 
     private boolean drawingActive = false;
     private boolean typingActive = false;
@@ -34,10 +36,11 @@ public class PhotoController extends JComponent {
 
     private Point moveStartPoint;
 
-    public PhotoController() {
+    public PhotoController(StatusController statusController) {
+        this.statusController = statusController;
         setView(new PhotoView(this));
         setModel(new Photo());
-        setToolbar(new ToolbarController(this));
+        setToolbar(new ToolbarController(this, statusController));
         // uncomment this to pre-load a dummy image
         try {
             setPhoto(new File(".").getCanonicalPath() + "\\assets\\picture1.jpg");
@@ -55,6 +58,7 @@ public class PhotoController extends JComponent {
        this.model.setDrawing(false);
        this.model.resetArt();
        this.setPreferredSize(new Dimension(model.getPhoto().getWidth(), model.getPhoto().getHeight()));
+       statusController.setStatus("Double-click on the photo to start drawing.");
     }
 
     public void removePhoto() {
@@ -70,7 +74,13 @@ public class PhotoController extends JComponent {
     }
 
     public void doubleClicked() {
+        typingActive = false;
         model.setDrawing(!model.isDrawing());
+        if (model.isDrawing()) {
+            statusController.setStatus("Select a shape and drag to draw. Alternatively, click on the photo and start typing.");
+        } else {
+            statusController.setStatus("Double-click on the photo to start drawing.");
+        }
     }
 
     public void clicked(MouseEvent e) {
@@ -97,12 +107,10 @@ public class PhotoController extends JComponent {
             if (toolbarController.getModel().getActiveShape().equals("Line")) {
                 constructPath(true, e.getPoint().x, e.getPoint().y);
             } else if (toolbarController.getModel().getActiveShape().equals("Ellipse")) {
-                System.out.println("Creating an ellipse");
                 Ellipse2D newEllipse = new Ellipse2D.Double(e.getPoint().x, e.getPoint().y, 0, 0);
                 currentShape = new ShapeAnnotation(newEllipse, ShapeAnnotation.SHAPE_TYPE.ELLIPSE);
                 model.addAnnotation(currentShape);
             } else if (toolbarController.getModel().getActiveShape().equals("Rectangle")) {
-                System.out.println("Creating a rectangle");
                 Rectangle2D newRectangle = new Rectangle2D.Double(e.getPoint().x, e.getPoint().y, 0, 0);
                 currentShape = new ShapeAnnotation(newRectangle, ShapeAnnotation.SHAPE_TYPE.RECTANGLE);
                 model.addAnnotation(currentShape);

@@ -4,7 +4,6 @@ import com.razvanilin.auiLab.app.model.MainModel;
 import com.razvanilin.auiLab.app.view.MainMenu;
 import com.razvanilin.auiLab.app.view.MainView;
 import com.razvanilin.auiLab.category.controller.CategoryMenuController;
-import com.razvanilin.auiLab.category.view.CategoryMenuView;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -56,11 +55,11 @@ public class MainController {
         mainMenu = new MainMenu();
         view.setMenu(mainMenu);
 
-        contentController = new ContentController();
-        view.setMainContent(contentController.getView());
-
         statusController = new StatusController();
         view.setStatusBar(statusController.getView());
+
+        contentController = new ContentController(statusController);
+        view.setMainContent(contentController.getView());
 
         categoryMenuController = new CategoryMenuController(statusController);
         view.setSideMenu(categoryMenuController.getView());

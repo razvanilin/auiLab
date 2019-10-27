@@ -6,8 +6,10 @@ import com.razvanilin.auiLab.photo.controller.PhotoController;
 public class ContentController {
     private ContentView view;
     private PhotoController photoController;
+    private StatusController statusController;
 
-    public ContentController() {
+    public ContentController(StatusController statusController) {
+        this.statusController = statusController;
         initializeControllers();
         setView(new ContentView(this));
     }
@@ -21,7 +23,7 @@ public class ContentController {
     }
 
     private void initializeControllers() {
-        photoController = new PhotoController();
+        photoController = new PhotoController(statusController);
     }
 
     public PhotoController getPhotoController() {
