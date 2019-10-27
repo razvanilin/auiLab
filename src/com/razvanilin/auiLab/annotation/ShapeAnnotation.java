@@ -41,17 +41,37 @@ public class ShapeAnnotation extends Annotation {
 
     @Override
     public void deselect() {
-
+        this.selected = false;
     }
 
     @Override
     public void draw(Graphics2D g) {
-        g.setPaint(Color.BLACK);
+        g.setPaint(this.color);
+        g.fill(shape);
+        if (this.selected) {
+            g.setColor(Color.RED);
+            g.setStroke(new BasicStroke(2));
+        }
         g.draw(shape);
     }
 
     @Override
     public boolean checkIfHit(int x, int y) {
+        if (type == SHAPE_TYPE.RECTANGLE) {
+            Rectangle2D rect = (Rectangle2D) shape;
+            if (x <= rect.getX() + rect.getWidth() && x >= rect.getX() && y <= rect.getY() + rect.getHeight() && y >= rect.getY()) {
+                this.selected = true;
+                System.out.println("clicked");
+            }
+        } else if (type == SHAPE_TYPE.ELLIPSE) {
+            Ellipse2D ellipse = (Ellipse2D) shape;
+            if (x <= ellipse.getCenterX() + (ellipse.getWidth() / 2) && x >= ellipse.getCenterX() - (ellipse.getWidth() / 2)
+            && y <= ellipse.getCenterY() + (ellipse.getHeight() / 2) && y >= ellipse.getCenterY() - (ellipse.getHeight() / 2)) {
+                this.selected = true;
+                System.out.println("Selected ellipse");
+            }
+        }
+
         return false;
     }
 

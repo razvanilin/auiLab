@@ -49,12 +49,13 @@ public class TextAnnotation extends Annotation {
 
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(this.color);
         int drawFontSize = fontSize;
+        g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, drawFontSize));
+
         if (this.selected) {
-            g.setFont(new Font(g.getFont().getFontName(), Font.BOLD, drawFontSize));
+            g.setColor(Color.RED);
         } else {
-            g.setFont(new Font(g.getFont().getFontName(), Font.PLAIN, drawFontSize));
+            g.setColor(this.color);
         }
 
         StringBuilder stringToDraw = new StringBuilder();
@@ -71,7 +72,9 @@ public class TextAnnotation extends Annotation {
                 typingHeight += drawFontSize;
                 stringToDraw = new StringBuilder();
                 // also update the width dimension of the string
-                size.width = g.getFontMetrics().stringWidth(stringToDraw.toString());
+                if (size.width < g.getFontMetrics().stringWidth(stringToDraw.toString())) {
+                    size.width = g.getFontMetrics().stringWidth(stringToDraw.toString());
+                }
             }
         }
         if (stringToDraw.length() > 0 && !endReached) {
@@ -88,11 +91,7 @@ public class TextAnnotation extends Annotation {
 
     @Override
     public boolean checkIfHit(int x, int y) {
-        System.out.println("Click: " + x + " - " + y);
-        System.out.println("Pos:" + position.x + " - " + position.y);
-        System.out.println("Size: " + (position.x + size.width) + " - " + (position.y + size.height));
-        if (x <= position.x + size.width && x >= position.x && y <= position.y + size.height && y >= position.y) {
-            System.out.println("Selected");
+        if (x <= position.x + size.width && x >= position.x && y <= size.height && y >= position.y - fontSize) {
             this.selected = true;
             return true;
         }
@@ -103,5 +102,6 @@ public class TextAnnotation extends Annotation {
     @Override
     public void setColor(Color color) {
         this.color = color;
+        this.selected = false;
     }
 }
