@@ -78,7 +78,7 @@ public class PhotoController extends JComponent {
 
         if (!shiftPressed) model.deselectAnnotations();
         if (selectShape(e.getPoint().x, e.getPoint().y)) {
-
+            // do something
         } else {
             if (!typingActive) {
                 typingActive = true;
