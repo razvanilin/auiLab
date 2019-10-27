@@ -42,11 +42,11 @@ public class PhotoController extends JComponent {
         setModel(new Photo());
         setToolbar(new ToolbarController(this, statusController));
         // uncomment this to pre-load a dummy image
-        try {
-            setPhoto(new File(".").getCanonicalPath() + "\\assets\\picture1.jpg");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            setPhoto(new File(".").getCanonicalPath() + "\\assets\\picture1.jpg");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public Photo getModel() {

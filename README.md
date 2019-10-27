@@ -3,6 +3,18 @@ Java swing dummy app for Uni
 
 Developed using InteliJ IDEA (might be easier to open it up there).
 
+### Lab3 Notes
+
+Changelog:
+
+* Separated the shapes into separate classes
+* Added shapes selection
+* Added multiple shape selection with Shift-click
+* Can change the colors of selected shapes
+* Can move selected shapes
+* Using the status controller with the photo functions
+* Double-clicking is now showing/hiding the drawings instead of flipping
+
 ### Lab2 Notes
 
 The important bits added in the Lab2 are in `src/com/razvanilin/auiLab/photo`. The rest of the application was mostly built in `Lab1` so I still need to refactor some of that previous code.
